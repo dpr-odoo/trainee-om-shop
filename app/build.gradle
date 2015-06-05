@@ -9,8 +9,8 @@ android {
         applicationId "com.odoo.shop"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 3
-        versionName "2.0.1"
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
