@@ -1,5 +1,7 @@
 # Odoo Mobile Shop (Trainee Project)
 
+![alt tag](https://raw.githubusercontent.com/dpr-odoo/trainee-om-shop/master/app/src/main/res/drawable-xxxhdpi/ic_launcher.png)
+
 Trainee repo for Odoo Mobile Shop build with **Odoo Mobile Framework** (based on website_sale)
 
   - Google and Odoo Login 
