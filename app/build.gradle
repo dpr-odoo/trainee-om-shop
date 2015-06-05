@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+    }
+    compileSdkVersion 22
+    buildToolsVersion "21.1.2"
+    defaultConfig {
+        applicationId "com.odoo"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 3
+        versionName "2.0.1"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/swipe_library.jar')
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile project(':intro-slider-lib')
+    compile project(':parallax-effect-lib')
+    compile project(':odoo-rpc-v2')
+}
