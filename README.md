@@ -9,6 +9,8 @@ Trainee repo for Odoo Mobile Shop build with **Odoo Mobile Framework** (based on
   - Checkout process
   - My Orders
   - Share products
+  - Material Design UI
+  - Offline Support (Search, filter and share only)
 
 
 Contributors:
