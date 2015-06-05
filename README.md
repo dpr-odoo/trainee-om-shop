@@ -17,7 +17,7 @@ Contributors:
 -------------
 
   - Dharmang Soni
-  - Mandipsinh
+  - Mandipsinh Gohil
   - Khyati Ganatra
   - Meghavi Ved
   - Foram Shah
