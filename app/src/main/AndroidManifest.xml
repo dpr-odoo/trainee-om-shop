@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
     <permission
-        android:name="com.odoo.permission.C2D_MESSAGE"
+        android:name="com.odoo.shop.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <application
@@ -90,17 +90,17 @@
 
         <provider
             android:name="com.odoo.core.orm.provider.BaseModelProvider"
-            android:authorities="com.odoo.core.provider.content"
+            android:authorities="com.odoo.shop.core.provider.content"
             android:multiprocess="true" />
         <provider
             android:name="com.odoo.base.addons.ir.providers.IrModelProvider"
-            android:authorities="com.odoo.core.provider.content.sync.ir_model"
+            android:authorities="com.odoo.shop.core.provider.content.sync.ir_model"
             android:multiprocess="true" />
 
         <!-- Sync Provider & Service  // -->
         <provider
             android:name="com.odoo.addons.customers.providers.CustomersSyncProvider"
-            android:authorities="com.odoo.core.provider.content.sync.res_partner"
+            android:authorities="com.odoo.shop.core.provider.content.sync.res_partner"
             android:label="@string/sync_label_customers"
             android:multiprocess="true" />
 

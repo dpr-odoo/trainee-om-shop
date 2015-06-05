@@ -2,16 +2,16 @@
 <resources>
 
     <!-- Application Base Theme Colors -->
-    <color name="theme_primary">@color/android_blue</color>
-    <color name="theme_primary_dark">@color/android_blue_dark</color>
-    <color name="theme_primary_light">@color/android_blue_dark</color>
-    <color name="theme_secondary">@color/android_violet</color>
-    <color name="theme_secondary_dark">@color/android_violet_dark</color>
-    <color name="theme_secondary_light">@color/android_violet</color>
+    <color name="theme_primary">@color/primary</color>
+    <color name="theme_primary_dark">@color/primary_dark</color>
+    <color name="theme_primary_light">@color/primary_light</color>
+    <color name="theme_secondary">@color/secondary</color>
+    <color name="theme_secondary_dark">@color/secondary_dark</color>
+    <color name="theme_secondary_light">@color/secondary_light</color>
 
     <color name="colorPrimary">@color/theme_primary</color>
     <color name="colorPrimaryDark">@color/theme_primary_dark</color>
-    <color name="colorAccent">@color/theme_primary_dark</color>
+    <color name="colorAccent">@color/accent_color</color>
 
     <!-- Drawer Properties -->
     <color name="drawerDefaultBackgroundColor">#ffffff</color>

@@ -2,7 +2,8 @@
 <resources>
     <string name="label_accounts_settings">Odoo</string>
     <string name="label_login">Login</string>
-    <string name="label_accept_login">Accept &amp; Login</string>
+    <string name="label_accept_login">Login with Odoo</string>
+    <string name="label_login_with_google">Login with Google</string>
     <string name="label_your_self_hosted_url">Your self-hosted URL</string>
     <string name="label_username">Username</string>
     <string name="label_username_or_email">Username or email</string>

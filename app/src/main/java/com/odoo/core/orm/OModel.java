@@ -77,7 +77,7 @@ import odoo.OdooVersion;
 public class OModel implements ISyncServiceListener {
 
     public static final String TAG = OModel.class.getSimpleName();
-    public String BASE_AUTHORITY = "com.odoo.core.provider.content";
+    public String BASE_AUTHORITY = "com.odoo.shop.core.provider.content";
     public static final String KEY_UPDATE_IDS = "key_update_ids";
     public static final String KEY_INSERT_IDS = "key_insert_ids";
     public static final int INVALID_ROW_ID = -1;
