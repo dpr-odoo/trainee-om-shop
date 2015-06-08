@@ -4,7 +4,7 @@
 
 Trainee repo for Odoo Mobile Shop build with **Odoo Mobile Framework** (based on website_sale)
 
-  - Login with Google and Odoo
+  - Google Login
   - Products
   - Cart
   - Filter and search by category, type, color and other attributes
