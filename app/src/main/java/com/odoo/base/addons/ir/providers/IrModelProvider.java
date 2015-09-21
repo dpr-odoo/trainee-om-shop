@@ -29,6 +29,6 @@ public class IrModelProvider extends BaseModelProvider {
 
     @Override
     public void setModel(Uri uri) {
-        mModel = new IrModel(getContext(), getUser(uri));
+        mModel = new IrModel(getContext());
     }
 }

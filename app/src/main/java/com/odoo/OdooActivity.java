@@ -1,20 +1,20 @@
 /**
  * Odoo, Open Source Management Solution
  * Copyright (C) 2012-today Odoo SA (<http:www.odoo.com>)
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details
- *
+ * <p/>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:www.gnu.org/licenses/>
- *
+ * <p/>
  * Created on 18/12/14 5:25 PM
  */
 package com.odoo;
@@ -31,12 +31,13 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.odoo.addons.website_sale.ProductCategoryLoader;
 import com.odoo.core.account.AppIntro;
 import com.odoo.core.account.ManageAccounts;
 import com.odoo.core.account.OdooLogin;
@@ -57,7 +59,6 @@ import com.odoo.core.support.addons.fragment.IBaseFragment;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.sync.SyncUtils;
 import com.odoo.core.utils.BitmapUtils;
-import com.odoo.core.utils.OActionBarUtils;
 import com.odoo.core.utils.OAlert;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OFragmentUtils;
@@ -69,7 +70,7 @@ import com.odoo.core.utils.sys.IOnBackPressListener;
 
 import java.util.List;
 
-public class OdooActivity extends ActionBarActivity {
+public class OdooActivity extends AppCompatActivity {
 
     public static final String TAG = OdooActivity.class.getSimpleName();
     public static final Integer DRAWER_ITEM_LAUNCH_DELAY = 300;
@@ -92,28 +93,38 @@ public class OdooActivity extends ActionBarActivity {
     private LinearLayout mDrawerItemContainer = null;
     private Boolean mAccountBoxExpanded = false;
     private Bundle mSavedInstanceState = null;
-    private Spinner spinner_nav = null;
     private Integer mDrawerSelectedIndex = -1;
     private Boolean mHasActionBarSpinner = false;
+
+    private App app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "OdooActivity->onCreate");
-        mSavedInstanceState = savedInstanceState;
-        OPreferenceManager preferenceManager = new OPreferenceManager(this);
-        if (!preferenceManager.getBoolean(KEY_FRESH_LOGIN, false)) {
-            preferenceManager.setBoolean(KEY_FRESH_LOGIN, true);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(OdooActivity.this, AppIntro.class));
-                }
-            }, 1000);
-        }
         setContentView(R.layout.odoo_activity);
-        OActionBarUtils.setActionBar(this, true);
+        mSavedInstanceState = savedInstanceState;
+        app = (App) getApplicationContext();
+        OControls.makeSetOdooFont(findViewById(R.id.txvLabelOdoo));
+        OControls.makeSetOdooFont(findViewById(R.id.txvLabelShop));
         setupDrawer();
+        new ProductCategoryLoader(this, new ProductCategoryLoader.OnCategoryLoadListener() {
+            @Override
+            public void categoryLoaded() {
+                findViewById(R.id.drawer_layout).setVisibility(View.VISIBLE);
+                findViewById(R.id.splashScreen).setVisibility(View.GONE);
+                OPreferenceManager preferenceManager = new OPreferenceManager(OdooActivity.this);
+                if (!preferenceManager.getBoolean(KEY_FRESH_LOGIN, false)) {
+                    preferenceManager.setBoolean(KEY_FRESH_LOGIN, true);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(OdooActivity.this, AppIntro.class));
+                        }
+                    }, 1000);
+                }
+            }
+        }).execute();
     }
 
     // Creating drawer
@@ -147,11 +158,12 @@ public class OdooActivity extends ActionBarActivity {
                 invalidateOptionsMenu();
             }
         };
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerToggle.syncState();
-
+        OControls.makeSetOdooFont(findViewById(R.id.txvDrawerLabelOdoo));
+        OControls.makeSetOdooFont(findViewById(R.id.txvDrawerLabelShop));
         setupAccountBox();
-        setupDrawerBox();
+//        setupDrawerBox();
     }
 
     private void setupDrawerBox() {
@@ -191,7 +203,7 @@ public class OdooActivity extends ActionBarActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mDrawerLayout.closeDrawer(Gravity.START);
+                mDrawerLayout.closeDrawer(GravityCompat.START);
             }
         }, DRAWER_ITEM_LAUNCH_DELAY);
 
@@ -239,9 +251,9 @@ public class OdooActivity extends ActionBarActivity {
     private void setupAccountBox() {
         mDrawerAccountContainer = (LinearLayout) findViewById(R.id.accountList);
         View chosenAccountView = findViewById(R.id.drawerAccountView);
-        OUser currentUser = OUser.current(this);
+        OUser currentUser = OUser.currentUser();
         if (currentUser == null) {
-            chosenAccountView.setVisibility(View.GONE);
+//            chosenAccountView.setVisibility(View.GONE);
             mDrawerAccountContainer.setVisibility(View.GONE);
             return;
         } else {
@@ -254,7 +266,7 @@ public class OdooActivity extends ActionBarActivity {
         TextView url = (TextView) chosenAccountView.findViewById(R.id.profile_url_text);
 
         name.setText(currentUser.getName());
-        url.setText((currentUser.isOAauthLogin()) ? currentUser.getInstanceUrl() : currentUser.getHost());
+        url.setText((currentUser.isOAuthLogin()) ? currentUser.getInstanceURL() : currentUser.getHost());
 
         if (!currentUser.getAvatar().equals("false")) {
             Bitmap bitmap = BitmapUtils.getBitmapImage(this, currentUser.getAvatar());
@@ -357,7 +369,7 @@ public class OdooActivity extends ActionBarActivity {
                         avatar.setImageBitmap(img);
                 }
                 OControls.setText(view, R.id.profile_name_text, user.getName());
-                OControls.setText(view, R.id.profile_url_text, (user.isOAauthLogin()) ? user.getInstanceUrl() : user.getHost());
+                OControls.setText(view, R.id.profile_url_text, (user.isOAuthLogin()) ? user.getInstanceURL() : user.getHost());
                 // Setting login event for other account
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -375,7 +387,7 @@ public class OdooActivity extends ActionBarActivity {
 
                                                 mAccountBoxExpanded = false;
                                                 accountBoxToggle();
-                                                mDrawerLayout.closeDrawer(Gravity.START);
+                                                mDrawerLayout.closeDrawer(GravityCompat.START);
                                                 // Restarting activity
                                                 restartActivity();
                                             }
@@ -488,7 +500,7 @@ public class OdooActivity extends ActionBarActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_ACCOUNT_CREATE) {
                 if (mDrawerLayout != null) {
-                    mDrawerLayout.closeDrawer(Gravity.START);
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
                     accountBoxToggle();
                 }
                 OdooAccountManager.login(this, data.getStringExtra(KEY_NEW_USER_NAME));
@@ -519,28 +531,30 @@ public class OdooActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mSavedInstanceState = savedInstanceState;
-        if (savedInstanceState == null) {
-            // Loading Default Fragment (if any)
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    IBaseFragment fragment = DrawerUtils.getDefaultDrawerFragment();
-                    if (fragment != null) {
-                        ODrawerItem item = DrawerUtils.getStartableObject(OdooActivity.this, fragment);
-                        setTitle(item.getTitle());
-                        loadDrawerItemInstance(item.getInstance(), item.getExtra());
-                        int selected_item = DrawerUtils.findItemIndex(item, mDrawerItemContainer);
-                        if (selected_item > -1) {
-                            focusOnDrawerItem(selected_item);
+        if (mDrawerItemContainer != null) {
+            if (savedInstanceState == null) {
+                // Loading Default Fragment (if any)
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        IBaseFragment fragment = DrawerUtils.getDefaultDrawerFragment();
+                        if (fragment != null) {
+                            ODrawerItem item = DrawerUtils.getStartableObject(OdooActivity.this, fragment);
+                            setTitle(item.getTitle());
+                            loadDrawerItemInstance(item.getInstance(), item.getExtra());
+                            int selected_item = DrawerUtils.findItemIndex(item, mDrawerItemContainer);
+                            if (selected_item > -1) {
+                                focusOnDrawerItem(selected_item);
+                            }
                         }
                     }
-                }
-            }, DRAWER_ITEM_LAUNCH_DELAY);
-        } else {
-            mHasActionBarSpinner = savedInstanceState.getBoolean(KEY_HAS_ACTIONBAR_SPINNER);
-            mDrawerSelectedIndex = savedInstanceState.getInt(KEY_CURRENT_DRAWER_ITEM);
-            setTitle(savedInstanceState.getString(KEY_APP_TITLE));
-            focusOnDrawerItem(mDrawerSelectedIndex);
+                }, DRAWER_ITEM_LAUNCH_DELAY);
+            } else {
+                mHasActionBarSpinner = savedInstanceState.getBoolean(KEY_HAS_ACTIONBAR_SPINNER);
+                mDrawerSelectedIndex = savedInstanceState.getInt(KEY_CURRENT_DRAWER_ITEM);
+                setTitle(savedInstanceState.getString(KEY_APP_TITLE));
+                focusOnDrawerItem(mDrawerSelectedIndex);
+            }
         }
     }
 

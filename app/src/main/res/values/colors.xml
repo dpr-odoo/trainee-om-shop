@@ -9,18 +9,6 @@
     <color name="odoo_secondary">#8f8f8f</color>
     <color name="odoo_optional">#21b799</color>
 
-    <color name="primary_dark">#388E3C</color>
-    <color name="primary">#4CAF50</color>
-    <color name="primary_light">#C8E6C9</color>
-    <color name="accent_color">#FFC107</color>
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#727272</color>
-    <color name="primary_divider">#B6B6B6</color>
-    <color name="secondary">#169e83</color>
-    <color name="secondary_light">#27c2a3</color>
-    <color name="secondary_dark">#078c6f</color>
-
-
     <!-- Drawer Colors -->
     <color name="drawer_text_color">#282828</color>
     <color name="drawer_text_color_selected">#414141</color>
@@ -66,4 +54,9 @@
 
     <color name="base_chatter_view_background">#f3f3f3</color>
     <color name="base_chatter_view_note_background">#dadada</color>
+
+    <color name="translucent_scrim_top">#26000000</color>
+    <color name="translucent_scrim_top_center">#0C000000</color>
+    <color name="translucent_scrim_bottom">#2A000000</color>
+    <color name="translucent_scrim_bottom_center">#0D000000</color>
 </resources>

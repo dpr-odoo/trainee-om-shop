@@ -30,8 +30,8 @@ public class ResCountry extends OModel {
 
     OColumn name = new OColumn("Name", OVarchar.class).setSize(100);
 
-    public ResCountry(Context context, OUser user) {
-        super(context, "res.country", user);
+    public ResCountry(Context context) {
+        super(context, "res.country");
     }
 
     @Override

@@ -31,7 +31,7 @@ public class MailMessageSubType extends OModel {
 
     OColumn name = new OColumn("Name", OVarchar.class);
 
-    public MailMessageSubType(Context context, OUser user) {
-        super(context, "mail.message.subtype", user);
+    public MailMessageSubType(Context context) {
+        super(context, "mail.message.subtype");
     }
 }

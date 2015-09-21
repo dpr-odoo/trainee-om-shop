@@ -1,7 +1,9 @@
 package com.odoo.core.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,6 +66,13 @@ public class OControls {
     public static void setTextColor(View parent, int txv_id, int color) {
         TextView tv = (TextView) parent.findViewById(txv_id);
         tv.setTextColor(color);
+    }
+
+    public static void makeSetOdooFont(View textView) {
+        TextView tv = (TextView) textView;
+        Context context = tv.getContext();
+        Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/Arista.ttf");
+        tv.setTypeface(tf,Typeface.NORMAL);
     }
 
 }

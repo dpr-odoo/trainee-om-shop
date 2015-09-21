@@ -19,17 +19,42 @@
  */
 package com.odoo.datas;
 
+import com.odoo.core.support.OUser;
+
+import odoo.helper.OdooVersion;
+
 public class OConstants {
     public static final String URL_ODOO = "https://www.odoo.com";
     public static final String URL_ODOO_RESET_PASSWORD = URL_ODOO + "/web/reset_password";
     public static final String URL_ODOO_SIGN_UP = URL_ODOO + "/web/signup";
-    public static final String URL_ODOO_ACCOUNTS = "https://accounts.odoo.com";
     public static final String URL_ODOO_MOBILE_GIT_HUB = "https://github.com/Odoo-mobile";
     public static final String URL_ODOO_APPS_ON_PLAY_STORE = "https://play.google.com/store/apps/developer?id=Odoo+SA";
 
     public static final String ODOO_COMPANY_NAME = "Odoo";
 
+    public static final int RPC_REQUEST_TIME_OUT = 30000; // 30 Seconds
+    public static final int RPC_REQUEST_RETRIES = 1; // Retries when timeout
 
-    public static final String SHOP_URL = "http://192.168.199.101:8069";
-    public static final String SHOP_DATABASE = "no-website-module";
+    /**
+     * Database version. Required to change in increment order
+     * when you change your database model in case of released apk.
+     */
+    public static final String DATABASE_NAME = "OdooShop.db";
+    public static final int DATABASE_VERSION = 1;
+
+
+    public static OUser publicUser() {
+        OUser user = new OUser();
+        user.setHost("http://192.168.199.227:8069");
+        user.setName("Odoo Shop");
+        user.setAvatar("false");
+        user.setUsername("odooshop");
+        user.setPassword("odooshop");
+        user.setDatabase("odoo_blank_8_0");
+        user.setCompanyId(1);
+        OdooVersion version = new OdooVersion();
+        version.setVersionNumber(8);
+        user.setOdooVersion(version);
+        return user;
+    }
 }

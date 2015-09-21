@@ -32,12 +32,12 @@ public class ResCurrency extends OModel {
     OColumn name = new OColumn("Name", OVarchar.class);
     OColumn symbol = new OColumn("Symbol", OVarchar.class).setSize(10);
 
-    public ResCurrency(Context context, OUser user) {
-        super(context, "res.currency", user);
+    public ResCurrency(Context context) {
+        super(context, "res.currency");
     }
 
     public static String getSymbol(Context context, int row_id) {
-        ResCurrency resCurrency = new ResCurrency(context, null);
+        ResCurrency resCurrency = new ResCurrency(context);
         ODataRow row = resCurrency.browse(row_id);
         return (row != null) ? row.getString("symbol") : "";
     }

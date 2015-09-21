@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Odoo Shop</string>
+    <string name="app_name">Odoo</string>
     <string name="sync_label_customers">Customers</string>
     <string name="toast_information_saved">Information Saved</string>
     <string name="toast_image_size_too_large">Image size too large !</string>
@@ -11,4 +11,13 @@
     <string name="label_log_note">Log note</string>
     <string name="label_send_message"><u>Send a message</u></string>
     <string name="label_log_an_internal_note"><u>Log an internal note</u></string>
+    <string name="label_version_build">Build</string>
+    <string name="title_activity_splash">SplashActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="label_odoo">odoo</string>
+    <string name="label_shop">shop</string>
+    <string name="label_welcome">welcome !</string>
+    <string name="label_login_or_register">Login or Register</string>
 </resources>

@@ -25,6 +25,7 @@ import android.util.Log;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.orm.fields.types.OInteger;
 import com.odoo.core.orm.fields.types.OTypeHelper;
+import com.odoo.core.utils.logger.OLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +55,8 @@ public class OSQLHelper {
             sql.append(" (");
             List<OColumn> columns = model.getColumns();
             sql.append(generateColumnStatement(model, columns));
+            OLog.log(">>>>>>>>>>>>>>>>>>>>>>>>" + sql.toString());
+            OLog.log(columns.toString());
             sql.deleteCharAt(sql.lastIndexOf(","));
             sql.append(")");
             mSQLStatements.put(model.getTableName(), sql.toString());

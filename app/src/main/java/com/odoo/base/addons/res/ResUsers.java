@@ -47,12 +47,12 @@ public class ResUsers extends OModel {
         return false;
     }
 
-    public ResUsers(Context context, OUser user) {
-        super(context, "res.users", user);
+    public ResUsers(Context context) {
+        super(context, "res.users");
     }
 
     public static int myId(Context context) {
-        ResUsers users = new ResUsers(context, null);
-        return users.selectRowId(users.getUser().getUser_id());
+        ResUsers users = new ResUsers(context);
+        return users.selectRowId(users.getUser().getUserId());
     }
 }

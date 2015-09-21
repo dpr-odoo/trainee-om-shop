@@ -34,13 +34,13 @@ public class ResCompany extends OModel {
     OColumn currency_id = new OColumn("Currency", ResCurrency.class,
             OColumn.RelationType.ManyToOne);
 
-    public ResCompany(Context context, OUser user) {
-        super(context, "res.company", user);
+    public ResCompany(Context context) {
+        super(context, "res.company");
     }
 
     public static ODataRow getCurrency(Context context) {
-        ResCompany company = new ResCompany(context, null);
-        int row_id = company.selectRowId(Integer.parseInt(company.getUser().getCompany_id()));
+        ResCompany company = new ResCompany(context);
+        int row_id = company.selectRowId(company.getUser().getCompanyId());
         return company.browse(row_id).getM2ORecord("currency_id").browse();
     }
 
@@ -60,14 +60,14 @@ public class ResCompany extends OModel {
     }
 
     public static int myId(Context context) {
-        ResCompany company = new ResCompany(context, null);
-        return company.selectRowId(Integer.parseInt(company.getUser().getCompany_id()));
+        ResCompany company = new ResCompany(context);
+        return company.selectRowId(company.getUser().getCompanyId());
     }
 
     public static int myCurrency(Context context) {
-        ResCompany company = new ResCompany(context, null);
-        ODataRow row = company.browse(company.selectRowId(Integer.parseInt(company.
-                getUser().getCompany_id())));
+        ResCompany company = new ResCompany(context);
+        ODataRow row = company.browse(company.selectRowId(company.
+                getUser().getCompanyId()));
         return row.getM2ORecord("currency_id").browse().getInt(OColumn.ROW_ID);
 
     }

@@ -34,7 +34,7 @@ public class OdooNews extends OModel {
     OColumn sender = new OColumn("sender", OVarchar.class);
     OColumn subject = new OColumn("Subject", OVarchar.class);
 
-    public OdooNews(Context context, OUser user) {
-        super(context, "odoo.news", user);
+    public OdooNews(Context context) {
+        super(context, "odoo.news");
     }
 }

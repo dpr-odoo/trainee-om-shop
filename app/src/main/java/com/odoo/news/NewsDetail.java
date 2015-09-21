@@ -49,7 +49,7 @@ public class NewsDetail extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        OdooNews news = new OdooNews(getActivity(), null);
+        OdooNews news = new OdooNews(getActivity());
         getArgument();
         ODataRow row = news.browse(id);
         OControls.setText(view, R.id.detailSubject, row.getString("subject"));

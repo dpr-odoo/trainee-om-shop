@@ -26,6 +26,7 @@ import android.content.IntentFilter;
 import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,7 +44,6 @@ import com.odoo.core.service.receivers.ISyncFinishReceiver;
 import com.odoo.core.support.OUser;
 import com.odoo.core.utils.OResource;
 
-import odoo.controls.fab.FloatingActionButton;
 
 public abstract class BaseFragment extends Fragment implements IBaseFragment {
     private Context mContext;
@@ -71,14 +71,14 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
     public OModel db() {
         Class<?> model = database();
         if (model != null) {
-            return new OModel(mContext, null, user()).createInstance(model);
+            return new OModel(mContext, null).createInstance(model);
         }
         return null;
     }
 
     public OUser user() {
         if (mContext != null)
-            return OUser.current(mContext);
+            return OUser.currentUser();
         return null;
     }
 
@@ -189,7 +189,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (OUser.current(getActivity()) == null)
+        if (OUser.currentUser() == null)
             return;
         if (mSyncStatusObserverListener != null) {
             mSyncStatusObserver.onStatusChanged(0);
@@ -246,8 +246,8 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
                                      View.OnClickListener clickListener) {
         mFab = (FloatingActionButton) view.findViewById(res_id);
         if (mFab != null) {
-            if (list != null)
-                mFab.listenTo(list);
+//            if (list != null)
+//                mFab.listenTo(list);
             mFab.setOnClickListener(clickListener);
         }
     }

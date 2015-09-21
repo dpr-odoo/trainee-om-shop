@@ -35,7 +35,7 @@ public class OdooNewsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // Use Keys: subject, from, message
-        OdooNews news = new OdooNews(context, null);
+        OdooNews news = new OdooNews(context);
         OValues values = new OValues();
         values.put("sender", intent.getExtras().getString("from"));
         values.put("subject", intent.getExtras().getString("subject"));
