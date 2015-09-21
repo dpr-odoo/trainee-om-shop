@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/default_8dp"
     android:paddingTop="@dimen/app_bar_top_padding"
     android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    android:theme="@style/AppBar.Dark"
+    android:theme="@style/AppBar.Light"
     app:layout_scrollFlags="scroll|enterAlways"
     app:titleMarginStart="@dimen/default_16dp">
 

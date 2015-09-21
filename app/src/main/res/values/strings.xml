@@ -20,4 +20,8 @@
     <string name="label_shop">shop</string>
     <string name="label_welcome">welcome !</string>
     <string name="label_login_or_register">Login or Register</string>
+    <string name="label_shop_by_category">Shop By Category</string>
+    <string name="label_search_your_product">Search your product</string>
+    <string name="lable_cart">Cart</string>
+    <string name="label_view_all">View all</string>
 </resources>

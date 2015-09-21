@@ -23,7 +23,7 @@ public class ProductCategoryLoader extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            if (mApp.inNetwork()) {
+            if (mApp.inNetwork() && category.isEmptyTable()) {
                 category.quickSyncRecords(null, true);
             }
             Thread.sleep(1000);
@@ -38,8 +38,6 @@ public class ProductCategoryLoader extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         if (mOnCategoryLoadListener != null) {
             mOnCategoryLoadListener.categoryLoaded();
-
-            OLog.log(category.select().toString());
         }
     }
 

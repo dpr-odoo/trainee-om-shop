@@ -38,4 +38,16 @@ public class OAppBarUtils {
             }
         }
     }
+
+    public static void setChildAppBar(AppCompatActivity parent, Toolbar toolbar,
+                                      boolean withHomeButtonEnabled) {
+        if (toolbar != null) {
+            parent.setSupportActionBar(toolbar);
+            ActionBar actionBar = parent.getSupportActionBar();
+            if (withHomeButtonEnabled && actionBar != null) {
+                actionBar.setHomeButtonEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+    }
 }

@@ -41,18 +41,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.odoo.addons.website_sale.HomeScreen;
 import com.odoo.addons.website_sale.ProductCategoryLoader;
+import com.odoo.addons.website_sale.models.ProductPublicCategory;
 import com.odoo.core.account.AppIntro;
 import com.odoo.core.account.ManageAccounts;
 import com.odoo.core.account.OdooLogin;
 import com.odoo.core.account.OdooUserAskPassword;
 import com.odoo.core.auth.OdooAccountManager;
 import com.odoo.core.auth.OdooAuthenticator;
+import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.addons.fragment.IBaseFragment;
@@ -65,6 +69,7 @@ import com.odoo.core.utils.OFragmentUtils;
 import com.odoo.core.utils.OPreferenceManager;
 import com.odoo.core.utils.OResource;
 import com.odoo.core.utils.drawer.DrawerUtils;
+import com.odoo.core.utils.logger.OLog;
 import com.odoo.core.utils.sys.IOnActivityResultListener;
 import com.odoo.core.utils.sys.IOnBackPressListener;
 
@@ -123,6 +128,9 @@ public class OdooActivity extends AppCompatActivity {
                         }
                     }, 1000);
                 }
+                setupDrawerBox();
+                onPostCreate(null);
+                mDrawerToggle.syncState();
             }
         }).execute();
     }
@@ -163,39 +171,51 @@ public class OdooActivity extends AppCompatActivity {
         OControls.makeSetOdooFont(findViewById(R.id.txvDrawerLabelOdoo));
         OControls.makeSetOdooFont(findViewById(R.id.txvDrawerLabelShop));
         setupAccountBox();
-//        setupDrawerBox();
     }
 
     private void setupDrawerBox() {
         mDrawerItemContainer = (LinearLayout) findViewById(R.id.drawerItemList);
         mDrawerItemContainer.removeAllViews();
-        List<ODrawerItem> items = DrawerUtils.getDrawerItems(this);
-        for (ODrawerItem item : items) {
-            View view = LayoutInflater.from(this).
-                    inflate((item.isGroupTitle()) ? R.layout.base_drawer_group_layout :
-                            R.layout.base_drawer_menu_item, mDrawerItemContainer, false);
-            view.setTag(item);
-            if (!item.isGroupTitle()) {
-                view.setOnClickListener(drawerItemClick);
+        bindCategoryViews(mDrawerItemContainer);
+    }
+
+    private void bindCategoryViews(ViewGroup container) {
+        View separator = LayoutInflater.from(this).inflate(R.layout.base_drawer_group_layout, container, false);
+        OControls.setText(separator, R.id.group_title, R.string.label_shop_by_category);
+        container.addView(separator);
+        ProductPublicCategory categories = new ProductPublicCategory(this);
+        for (ODataRow row : categories.select(null, "parent_id is NULL", new String[]{}, "sequence")) {
+            View item = LayoutInflater.from(this).inflate(R.layout.base_drawer_category_item, container, false);
+            if (row.getString("image_medium").equals("false")) {
+                OControls.setImage(item, R.id.icon, R.drawable.ic_action_add);
+            } else {
+                OControls.setImage(item, R.id.icon, BitmapUtils.getBitmapImage(this,
+                        row.getString("image_medium")));
             }
-            mDrawerItemContainer.addView(DrawerUtils.fillDrawerItemValue(view, item));
+            OControls.setText(item, R.id.title, row.getString("name"));
+            item.setTag(row);
+            item.setOnClickListener(drawerItemClick);
+            container.addView(item);
         }
+
     }
 
     private View.OnClickListener drawerItemClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int index = mDrawerItemContainer.indexOfChild(v);
-            if (mDrawerSelectedIndex != index) {
-                ODrawerItem item = (ODrawerItem) v.getTag();
-                if (item.getInstance() instanceof Fragment) {
-                    focusOnDrawerItem(index);
-                    setTitle(item.getTitle());
-                }
-                loadDrawerItemInstance(item.getInstance(), item.getExtra());
-            } else {
-                closeDrawer();
-            }
+//            if (mDrawerSelectedIndex != index) {
+//                ODrawerItem item = (ODrawerItem) v.getTag();
+//                if (item.getInstance() instanceof Fragment) {
+//                    focusOnDrawerItem(index);
+//                    setTitle(item.getTitle());
+//                }
+//                loadDrawerItemInstance(item.getInstance(), item.getExtra());
+//            } else {
+//                closeDrawer();
+//            }
+            ODataRow row = (ODataRow) v.getTag();
+            closeDrawer();
         }
     };
 
@@ -264,10 +284,13 @@ public class OdooActivity extends AppCompatActivity {
         ImageView avatar = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
         TextView name = (TextView) chosenAccountView.findViewById(R.id.profile_name_text);
         TextView url = (TextView) chosenAccountView.findViewById(R.id.profile_url_text);
-
-        name.setText(currentUser.getName());
-        url.setText((currentUser.isOAuthLogin()) ? currentUser.getInstanceURL() : currentUser.getHost());
-
+        if (currentUser.isDummyUser()) {
+            name.setText(OResource.string(this, R.string.label_welcome));
+            url.setText(OResource.string(this, R.string.label_login_or_register));
+        } else {
+            name.setText(currentUser.getName());
+            url.setText((currentUser.isOAuthLogin()) ? currentUser.getInstanceURL() : currentUser.getHost());
+        }
         if (!currentUser.getAvatar().equals("false")) {
             Bitmap bitmap = BitmapUtils.getBitmapImage(this, currentUser.getAvatar());
             if (bitmap != null)
@@ -539,13 +562,7 @@ public class OdooActivity extends AppCompatActivity {
                     public void run() {
                         IBaseFragment fragment = DrawerUtils.getDefaultDrawerFragment();
                         if (fragment != null) {
-                            ODrawerItem item = DrawerUtils.getStartableObject(OdooActivity.this, fragment);
-                            setTitle(item.getTitle());
-                            loadDrawerItemInstance(item.getInstance(), item.getExtra());
-                            int selected_item = DrawerUtils.findItemIndex(item, mDrawerItemContainer);
-                            if (selected_item > -1) {
-                                focusOnDrawerItem(selected_item);
-                            }
+                            loadDrawerItemInstance(new HomeScreen(), null);
                         }
                     }
                 }, DRAWER_ITEM_LAUNCH_DELAY);

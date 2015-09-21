@@ -55,8 +55,6 @@ public class OSQLHelper {
             sql.append(" (");
             List<OColumn> columns = model.getColumns();
             sql.append(generateColumnStatement(model, columns));
-            OLog.log(">>>>>>>>>>>>>>>>>>>>>>>>" + sql.toString());
-            OLog.log(columns.toString());
             sql.deleteCharAt(sql.lastIndexOf(","));
             sql.append(")");
             mSQLStatements.put(model.getTableName(), sql.toString());

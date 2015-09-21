@@ -35,10 +35,19 @@ public class OUser extends odoo.helper.OUser {
     public static final int USER_ACCOUNT_VERSION = 2;
     private Account account;
     private OdooVersion odooVersion;
-
+    private Boolean dummyUser = false;
 //    public static OUser current(Context context) {
 //        return OdooAccountManager.getActiveUser(context);
 //    }
+
+
+    public Boolean isDummyUser() {
+        return dummyUser;
+    }
+
+    public void setDummyUser(Boolean dummyUser) {
+        this.dummyUser = dummyUser;
+    }
 
     public static OUser currentUser() {
         //TODO: Check for available user information, if not return public user

@@ -45,9 +45,10 @@ public class OConstants {
 
     public static OUser publicUser() {
         OUser user = new OUser();
-        user.setHost("http://192.168.199.227:8069");
+        user.setHost("http://192.168.199.101:8069");
         user.setName("Odoo Shop");
         user.setAvatar("false");
+        user.setDummyUser(true);
         user.setUsername("odooshop");
         user.setPassword("odooshop");
         user.setDatabase("odoo_blank_8_0");

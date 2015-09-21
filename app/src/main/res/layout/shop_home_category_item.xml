@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/default_8dp"
+    android:paddingLeft="@dimen/default_16dp"
+    android:paddingRight="@dimen/default_16dp"
+    android:paddingTop="@dimen/default_8dp">
+
+    <odoo.controls.BezelImageView
+        android:id="@+id/categoryIcon"
+        android:layout_width="@dimen/default_48dp"
+        android:layout_height="@dimen/default_48dp"
+        android:layout_marginRight="@dimen/default_8dp"
+        android:src="@drawable/avatar"
+        app:maskDrawable="@drawable/circle_mask_primary" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/body_text_1"
+        android:textSize="@dimen/text_size_xlarge" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_8dp"
+        android:src="@drawable/ic_action_arrow_right"
+        android:tint="@color/body_text_2" />
+
+</LinearLayout>

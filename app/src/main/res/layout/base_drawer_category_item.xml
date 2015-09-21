@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="?android:selectableItemBackground"
+    android:clickable="true"
+    android:gravity="start|center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/default_16dp"
+    android:paddingRight="@dimen/default_16dp">
+
+    <odoo.controls.BezelImageView
+        android:id="@+id/icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="24dp"
+        app:maskDrawable="@drawable/circle_mask_secondary" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_weight="1"
+        android:fontFamily="@string/font_normal"
+        android:gravity="start|center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/drawer_text_color"
+        android:textSize="@dimen/text_size_medium" />
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:fontFamily="@string/font_normal"
+        android:gravity="start|center_vertical"
+        android:textColor="@color/drawer_text_color"
+        android:textSize="@dimen/text_size_medium" />
+
+</LinearLayout>
