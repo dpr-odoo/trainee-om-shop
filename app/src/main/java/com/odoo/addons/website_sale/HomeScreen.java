@@ -29,7 +29,8 @@ import odoo.controls.recycler.EasyRecyclerViewAdapter;
 
 public class HomeScreen extends BaseFragment {
 
-    private EasyRecyclerView categoriesList = null;
+    private EasyRecyclerView layoutContainer = null;
+    public static final int ITEM_CATEGORY_LIST = 1;
 
     @Nullable
     @Override
@@ -49,22 +50,48 @@ public class HomeScreen extends BaseFragment {
         init(view);
     }
 
+    private List<Object> getContainerItems() {
+        List<Object> items = new ArrayList<>();
+        items.add(ITEM_CATEGORY_LIST);
+        return items;
+    }
+
     private void init(View view) {
-        final List<Object> rows = new ArrayList<>();
-        rows.addAll(db().select(null, "parent_id is NULL", new String[]{}, "sequence"));
-        categoriesList = (EasyRecyclerView) view.findViewById(R.id.categories);
-        categoriesList.setLayout(R.layout.shop_home_category_item);
-        categoriesList.changeCursor(rows);
-        categoriesList.setOnItemViewClickListener(new EasyRecyclerViewAdapter.OnItemViewClickListener() {
+        final List<Object> rows = getContainerItems();
+        layoutContainer = (EasyRecyclerView) view.findViewById(R.id.layoutContainer);
+        layoutContainer.setLayout(R.layout.shop_recycler_container);
+        layoutContainer.changeCursor(rows);
+        layoutContainer.setOnViewBindListener(new EasyRecyclerViewAdapter.OnViewBindListener() {
             @Override
-            public void onItemViewClick(int position, View view, Object data) {
+            public void onViewBind(int position, View view, Object data) {
+                int item = (int) data;
+                ViewGroup container = (ViewGroup) view;
+                switch (item) {
+                    case ITEM_CATEGORY_LIST:
+                        container.addView(getCategoryItemView(container));
+                        break;
+                }
+            }
+        });
+
+    }
+
+    private View getCategoryItemView(ViewGroup container) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.shop_home_category_list_view, container, false);
+        final List<Object> items = new ArrayList<>();
+        items.addAll(db().select(null, "parent_id is NULL", new String[]{}, "sequence"));
+
+        ExpandableListControl listControl = (ExpandableListControl) view.findViewById(R.id.categoriesList);
+        listControl.setExpandableListItemClickListener(new ExpandableListControl.ExpandableListItemClickListener() {
+            @Override
+            public void onItemViewClick(int position, View view) {
 
             }
         });
-        categoriesList.setOnViewBindListener(new EasyRecyclerViewAdapter.OnViewBindListener() {
+        ExpandableListControl.ExpandableListAdapter adapter = listControl.getAdapter(R.layout.shop_home_category_item, items, new ExpandableListControl.ExpandableListAdapterGetViewListener() {
             @Override
-            public void onViewBind(int position, View view, Object data) {
-                ODataRow row = (ODataRow) rows.get(position);
+            public View getView(int position, View view, ViewGroup parent) {
+                ODataRow row = (ODataRow) items.get(position);
                 if (!row.getString("image_medium").equals("false")) {
                     OControls.setImage(view, R.id.categoryIcon,
                             BitmapUtils.getBitmapImage(getActivity(), row.getString("image_medium")));
@@ -72,21 +99,11 @@ public class HomeScreen extends BaseFragment {
                     OControls.setImage(view, R.id.categoryIcon, R.drawable.ic_action_arrow_right);
                 }
                 OControls.setText(view, R.id.title, row.getString("name"));
+                return view;
             }
         });
-
-//        categoriesList = (ExpandableListControl) view.findViewById(R.id.categories);
-//
-//        ExpandableListControl.ExpandableListAdapter adapter = categoriesList.getAdapter(
-//                R.layout.shop_home_category_item, rows, new ExpandableListControl.ExpandableListAdapterGetViewListener() {
-//                    @Override
-//                    public View getView(int position, View view, ViewGroup parent) {
-//                        ODataRow row = (ODataRow) rows.get(position);
-//                        OControls.setText(view, R.id.title, row.getString("name"));
-//                        return view;
-//                    }
-//                });
-//        adapter.notifyDataSetChanged(rows);
+        adapter.notifyDataSetChanged(items);
+        return view;
     }
 
     @Override

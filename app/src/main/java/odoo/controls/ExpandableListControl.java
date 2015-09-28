@@ -1,20 +1,20 @@
 /**
  * Odoo, Open Source Management Solution
  * Copyright (C) 2012-today Odoo SA (<http:www.odoo.com>)
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details
- *
+ * <p/>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:www.gnu.org/licenses/>
- *
+ * <p/>
  * Created on 3/2/15 2:08 PM
  */
 package odoo.controls;
@@ -34,6 +34,7 @@ public class ExpandableListControl extends LinearLayout
     public static final String TAG = ExpandableListControl.class.getSimpleName();
     private ExpandableListAdapter mAdapter;
     private Context context;
+    private ExpandableListItemClickListener mExpandableListItemClickListener;
 
     public ExpandableListControl(Context context) {
         super(context);
@@ -63,13 +64,23 @@ public class ExpandableListControl extends LinearLayout
                                             final ExpandableListAdapterGetViewListener listener) {
         mAdapter = new ExpandableListAdapter(context, resource, objects) {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(final int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(context).inflate(getResource(), parent, false);
                 }
                 if (listener != null) {
-                    return listener.getView(position, convertView, parent);
+                    convertView = listener.getView(position, convertView, parent);
                 }
+                final View itemView = convertView;
+                convertView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mExpandableListItemClickListener != null) {
+                            mExpandableListItemClickListener.onItemViewClick(position, itemView);
+                        }
+                    }
+                });
+
                 return convertView;
             }
         };
@@ -78,11 +89,16 @@ public class ExpandableListControl extends LinearLayout
     }
 
 
+    public void setExpandableListItemClickListener(ExpandableListItemClickListener listener) {
+        mExpandableListItemClickListener = listener;
+    }
+
     public abstract static class ExpandableListAdapter {
         private List<Object> objects = new ArrayList<>();
         private Context context;
         private int resource = android.R.layout.simple_list_item_1;
         private ExpandableListOperationListener listener;
+
 
         public ExpandableListAdapter(Context context, int resource, List<Object> objects) {
             this.context = context;
@@ -108,10 +124,16 @@ public class ExpandableListControl extends LinearLayout
         public int getResource() {
             return resource;
         }
+
+
     }
 
-    public static interface ExpandableListAdapterGetViewListener {
-        public View getView(int position, View view, ViewGroup parent);
+    public interface ExpandableListAdapterGetViewListener {
+        View getView(int position, View view, ViewGroup parent);
+    }
+
+    public interface ExpandableListItemClickListener {
+        void onItemViewClick(int position, View view);
     }
 
 

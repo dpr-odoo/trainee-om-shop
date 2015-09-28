@@ -69,49 +69,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_8dp"
         android:orientation="vertical">
-        <!-- Shop by category  //-->
-        <LinearLayout
+
+
+        <odoo.controls.recycler.EasyRecyclerView
+            android:id="@+id/layoutContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/default_16dp"
-            android:paddingRight="@dimen/default_16dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@string/font_condensed"
-                android:text="@string/label_shop_by_category"
-                android:textSize="@dimen/text_size_xlarge" />
+        </odoo.controls.recycler.EasyRecyclerView>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/android_orange_dark"
-                android:text="@string/label_view_all"
-                android:textColor="@color/body_text_1_inverse" />
-        </LinearLayout>
-
-        <!-- Category list //-->
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/default_8dp"
-            android:layout_marginRight="@dimen/default_8dp"
-            card_view:cardBackgroundColor="#ffffff"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true"
-            card_view:contentPaddingBottom="@dimen/default_4dp"
-            card_view:contentPaddingTop="@dimen/default_4dp">
-
-            <odoo.controls.recycler.EasyRecyclerView
-                android:id="@+id/categories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </android.support.v7.widget.CardView>
     </LinearLayout>
 </LinearLayout>

@@ -13,8 +13,8 @@
 
     <odoo.controls.BezelImageView
         android:id="@+id/categoryIcon"
-        android:layout_width="@dimen/default_48dp"
-        android:layout_height="@dimen/default_48dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginRight="@dimen/default_8dp"
         android:src="@drawable/avatar"
         app:maskDrawable="@drawable/circle_mask_primary" />
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/body_text_1"
-        android:textSize="@dimen/text_size_xlarge" />
+        android:textSize="@dimen/text_size_large" />
 
     <ImageView
         android:layout_width="wrap_content"
