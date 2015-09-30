@@ -126,7 +126,7 @@ public class OModel implements ISyncServiceListener {
 
     public OModel(Context context, String model_name) {
         mContext = context;
-        mUser = OUser.currentUser();
+        mUser = OUser.currentUser(context);
         this.model_name = model_name;
         if (mUser != null) {
             mOdooVersion = mUser.getOdooVersion();

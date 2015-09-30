@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.odoo.core.auth.OdooAccountManager;
+import com.odoo.core.utils.OPreferenceManager;
 import com.odoo.datas.OConstants;
 
 import odoo.helper.OdooVersion;
@@ -36,10 +37,7 @@ public class OUser extends odoo.helper.OUser {
     private Account account;
     private OdooVersion odooVersion;
     private Boolean dummyUser = false;
-//    public static OUser current(Context context) {
-//        return OdooAccountManager.getActiveUser(context);
-//    }
-
+    private OPreferenceManager pref = null;
 
     public Boolean isDummyUser() {
         return dummyUser;
@@ -49,9 +47,19 @@ public class OUser extends odoo.helper.OUser {
         this.dummyUser = dummyUser;
     }
 
-    public static OUser currentUser() {
-        //TODO: Check for available user information, if not return public user
+    public static OUser currentUser(Context context) {
         return OConstants.publicUser();
+    }
+
+    public static OUser getUser(Context context) {
+        OPreferenceManager pref = new OPreferenceManager(context);
+        return pref.getUserValues();
+    }
+
+    public boolean createNewAccount(Context context) {
+        pref = new OPreferenceManager(context);
+        pref.setUserValues(this);
+        return true;
     }
 
     @Override
@@ -65,6 +73,17 @@ public class OUser extends odoo.helper.OUser {
     }
 
     public void setFromBundle(Bundle data) {
+        if (data != null) {
+            data.putInt("version_type_number", Integer.parseInt(data.getString("version_type_number")));
+            data.putInt("version_number", Integer.parseInt(data.getString("version_number")));
+            data.putBoolean("oauth_login", Boolean.parseBoolean(data.getString("oauth_login")));
+            data.putInt("user_id", Integer.parseInt(data.getString("user_id")));
+            data.putInt("partner_id", Integer.parseInt(data.getString("partner_id")));
+            data.putInt("company_id", Integer.parseInt(data.getString("company_id")));
+            data.putBoolean("allow_self_signed_ssl", false);
+            data.putBoolean("is_active",true);
+            data.putBoolean("allow_force_connect", Boolean.parseBoolean(data.getString("allow_force_connect")));
+        }
         fillFromBundle(data);
     }
 

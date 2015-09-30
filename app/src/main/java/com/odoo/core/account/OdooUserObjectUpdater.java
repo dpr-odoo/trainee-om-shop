@@ -61,11 +61,11 @@ public class OdooUserObjectUpdater extends AlertDialog {
         setCancelable(false);
         show();
         updateData = new UpdateData(this);
-        updateData.execute(OUser.currentUser());
+        updateData.execute(OUser.currentUser(mContext));
     }
 
     private void bindView(View view) {
-        OUser user = OUser.currentUser();
+        OUser user = OUser.currentUser(mContext);
         String avatar = user.getAvatar();
         if (!avatar.equals("false")) {
             Bitmap img = BitmapUtils.getBitmapImage(mContext, avatar);

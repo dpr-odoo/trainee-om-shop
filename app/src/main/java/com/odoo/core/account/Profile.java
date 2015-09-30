@@ -43,7 +43,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_profile);
         OAppBarUtils.setAppBar(this, true);
-        OUser user = OUser.currentUser();
+        OUser user = OUser.currentUser(this);
         OForm form = (OForm) findViewById(R.id.profileDetails);
         int color = OStringColorUtil.getStringColor(this, user.getName());
         form.setIconTintColor(color);

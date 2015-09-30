@@ -33,7 +33,7 @@ public class SyncUtils {
     private OUser mUser;
 
     public SyncUtils(Context context, OUser user) {
-        mUser = (user != null) ? user : OUser.currentUser();
+        mUser = (user != null) ? user : OUser.currentUser(context);
     }
 
     public static SyncUtils get(Context context) {

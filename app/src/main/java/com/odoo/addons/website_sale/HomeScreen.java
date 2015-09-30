@@ -16,9 +16,9 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.utils.BitmapUtils;
+import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OAppBarUtils;
 import com.odoo.core.utils.OControls;
-import com.odoo.core.utils.logger.OLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +74,12 @@ public class HomeScreen extends BaseFragment {
             }
         });
 
+        view.findViewById(R.id.search_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.startActivity(getActivity(), SearchItemsActivity.class, null);
+            }
+        });
     }
 
     private View getCategoryItemView(ViewGroup container) {

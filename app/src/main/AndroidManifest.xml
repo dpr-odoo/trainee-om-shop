@@ -24,6 +24,7 @@
         android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -31,11 +32,14 @@
         android:icon="@mipmap/ic_launcher"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".core.account.OdooLogin"
             android:label="${applicationName}"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".core.account.ManageAccounts" />
         <activity
             android:name=".OdooActivity"
@@ -96,29 +100,8 @@
             android:authorities="${applicationId}.core.provider.content.sync.ir_model"
             android:multiprocess="true" />
 
-        <!-- Sync Provider & Service  // -->
-        <provider
-            android:name=".addons.customers.providers.CustomersSyncProvider"
-            android:authorities="${applicationId}.core.provider.content.sync.res_partner"
-            android:label="@string/sync_label_customers"
-            android:multiprocess="true" />
-
-        <service
-            android:name=".addons.customers.services.CustomerSyncService"
-            android:exported="true"
-            android:process=":sync_customer">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/customer_sync_adapter" />
-        </service>
-
-        <activity
-            android:name=".addons.customers.CustomerDetails"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".addons.website_sale.SearchItemsActivity" />
+        <activity android:name=".addons.website_sale.GoogleLoginActivity" />
 
     </application>
 

@@ -78,7 +78,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
 
     public OUser user() {
         if (mContext != null)
-            return OUser.currentUser();
+            return OUser.currentUser(getContext());
         return null;
     }
 
@@ -189,7 +189,7 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (OUser.currentUser() == null)
+        if (OUser.currentUser(getActivity()) == null)
             return;
         if (mSyncStatusObserverListener != null) {
             mSyncStatusObserver.onStatusChanged(0);

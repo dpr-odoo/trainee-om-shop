@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void settingUpdated() {
-        OUser user = OUser.currentUser();
+        OUser user = OUser.currentUser(this);
         if (user == null) {
             Intent loginActivity = new Intent(this, OdooLogin.class);
             loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

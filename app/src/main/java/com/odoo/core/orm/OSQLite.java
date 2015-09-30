@@ -50,7 +50,7 @@ public class OSQLite extends SQLiteOpenHelper {
         super(context, OConstants.DATABASE_NAME, null, OConstants.DATABASE_VERSION);
         mContext = context;
         mAddons = new Addons();
-        mUser = (user != null) ? user : OUser.currentUser();
+        mUser = (user != null) ? user : OUser.currentUser(context);
         mPref = new OPreferenceManager(mContext);
         synchronized (this) {
             if (!mPref.getBoolean(KEY_MODEL_CLASS_REGISTER, false)) {

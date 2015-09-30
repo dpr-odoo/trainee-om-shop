@@ -46,7 +46,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.odoo.addons.website_sale.GoogleLoginActivity;
 import com.odoo.addons.website_sale.HomeScreen;
 import com.odoo.addons.website_sale.ProductCategoryLoader;
 import com.odoo.addons.website_sale.models.ProductPublicCategory;
@@ -63,6 +65,7 @@ import com.odoo.core.support.addons.fragment.IBaseFragment;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.sync.SyncUtils;
 import com.odoo.core.utils.BitmapUtils;
+import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OAlert;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OFragmentUtils;
@@ -87,6 +90,7 @@ public class OdooActivity extends AppCompatActivity {
     public static final String KEY_HAS_ACTIONBAR_SPINNER = "key_has_actionbar_spinner";
     public static final Integer REQUEST_ACCOUNT_CREATE = 1101;
     public static final Integer REQUEST_ACCOUNTS_MANAGE = 1102;
+    public static final Integer REQUEST_GOOGLE_ACCOUNT = 110;
     public static final String KEY_FRESH_LOGIN = "key_fresh_login";
 
     private DrawerLayout mDrawerLayout = null;
@@ -271,16 +275,12 @@ public class OdooActivity extends AppCompatActivity {
     private void setupAccountBox() {
         mDrawerAccountContainer = (LinearLayout) findViewById(R.id.accountList);
         View chosenAccountView = findViewById(R.id.drawerAccountView);
-        OUser currentUser = OUser.currentUser();
+        OUser currentUser = OUser.getUser(this);
         if (currentUser == null) {
-//            chosenAccountView.setVisibility(View.GONE);
-            mDrawerAccountContainer.setVisibility(View.GONE);
-            return;
-        } else {
-            chosenAccountView.setVisibility(View.VISIBLE);
-            mDrawerAccountContainer.setVisibility(View.INVISIBLE);
+            currentUser = OUser.currentUser(this);
         }
-
+        chosenAccountView.setVisibility(View.VISIBLE);
+        mDrawerAccountContainer.setVisibility(View.INVISIBLE);
         ImageView avatar = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
         TextView name = (TextView) chosenAccountView.findViewById(R.id.profile_name_text);
         TextView url = (TextView) chosenAccountView.findViewById(R.id.profile_url_text);
@@ -289,10 +289,11 @@ public class OdooActivity extends AppCompatActivity {
             url.setText(OResource.string(this, R.string.label_login_or_register));
         } else {
             name.setText(currentUser.getName());
-            url.setText((currentUser.isOAuthLogin()) ? currentUser.getInstanceURL() : currentUser.getHost());
+            url.setText(currentUser.getUsername());
         }
         if (!currentUser.getAvatar().equals("false")) {
-            Bitmap bitmap = BitmapUtils.getBitmapImage(this, currentUser.getAvatar());
+            Bitmap bitmap = BitmapUtils.getAlphabetImage(this, currentUser.getName());
+            //BitmapUtils.getBitmapImage(this, currentUser.getAvatar());
             if (bitmap != null)
                 avatar.setImageBitmap(bitmap);
         }
@@ -311,6 +312,15 @@ public class OdooActivity extends AppCompatActivity {
                 }
             });
             populateAccountList(currentUser, accounts);
+        }
+        chosenAccountView.setOnClickListener(null);
+        if (currentUser.isDummyUser()) {
+            chosenAccountView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityForResult(new Intent(OdooActivity.this, GoogleLoginActivity.class), REQUEST_GOOGLE_ACCOUNT);
+                }
+            });
         }
     }
 
@@ -533,6 +543,10 @@ public class OdooActivity extends AppCompatActivity {
             if (requestCode == REQUEST_ACCOUNTS_MANAGE) {
                 startActivity(new Intent(this, OdooLogin.class));
                 finish();
+            }
+            if (requestCode == REQUEST_GOOGLE_ACCOUNT) {
+                setupAccountBox();
+                Toast.makeText(this, "Welcome " + OUser.getUser(this).getName(), Toast.LENGTH_LONG).show();
             }
         }
     }

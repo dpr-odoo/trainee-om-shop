@@ -21,6 +21,9 @@ package com.odoo.core.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+
+import com.odoo.core.support.OUser;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,10 +33,12 @@ import java.util.Set;
 public class OPreferenceManager {
     public static final String TAG = OPreferenceManager.class.getSimpleName();
     private SharedPreferences mPref = null;
+    private Context mContext;
 
     public OPreferenceManager(Context context) {
         mPref = android.preference.PreferenceManager
                 .getDefaultSharedPreferences(context);
+        mContext = context;
     }
 
     public void putString(String key, String value) {
@@ -82,6 +87,35 @@ public class OPreferenceManager {
 
     public boolean getBoolean(String key, boolean defValue) {
         return mPref.getBoolean(key, defValue);
+    }
+
+    public void setUserValues(OUser user) {
+        Bundle data = user.getAsBundle();
+        SharedPreferences.Editor editor = mPref.edit();
+        for (String key : data.keySet()) {
+            Object val = data.get(key);
+            editor.putString(key, val + "");
+        }
+        editor.putStringSet("user_object_keys", data.keySet());
+        editor.commit();
+
+    }
+
+    public boolean hasKey(String key) {
+        return mPref.contains(key);
+    }
+
+    public OUser getUserValues() {
+        OUser user = null;
+        if (hasKey("user_object_keys")) {
+            user = new OUser();
+            Bundle data = new Bundle();
+            for (String key : getStringSet("user_object_keys")) {
+                data.putString(key, mPref.getString(key, null));
+            }
+            user.setFromBundle(data);
+        }
+        return user;
     }
 
 }

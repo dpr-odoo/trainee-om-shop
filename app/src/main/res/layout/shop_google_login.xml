@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DA4A38"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="164dp"
+            android:layout_height="164dp"
+            android:src="@drawable/google_plus" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/font_normal"
+            android:gravity="center"
+            android:text="@string/label_login_with_google_plus"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <TextView
+            android:id="@+id/btnLoginWithGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_16dp"
+            android:background="@drawable/gplus_button"
+            android:gravity="center"
+            android:paddingLeft="@dimen/default_48dp"
+            android:paddingRight="@dimen/default_16dp"
+            android:text="@string/label_login_or_signup"
+            android:textColor="#DA4A38"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_marginTop="@dimen/default_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@string/font_light"
+        android:gravity="center"
+        android:padding="@dimen/default_16dp"
+        android:text="@string/terms_condition"
+        android:textColor="@color/body_text_2_inverse"
+        android:textSize="@dimen/text_size_xmedium"
+        android:textStyle="bold" />
+</LinearLayout>

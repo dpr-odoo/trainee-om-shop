@@ -24,4 +24,7 @@
     <string name="label_search_your_product">Search your product</string>
     <string name="lable_cart">Cart</string>
     <string name="label_view_all">View all</string>
+    <string name="label_login_with_google_plus">Login with Google+</string>
+    <string name="label_login_or_signup">Login/Signup</string>
+    <string name="terms_condition">By registering, You agree to Odoo\'s Terms and conditions</string>
 </resources>
