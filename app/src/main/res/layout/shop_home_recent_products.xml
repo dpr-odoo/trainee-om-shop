@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <!-- Recent products  //-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/default_16dp"
+        android:paddingRight="@dimen/default_8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@string/font_condensed"
+            android:text="@string/label_new_products"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <Button
+            android:id="@+id/allNewProducts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/android_orange_dark"
+            android:text="@string/label_view_all"
+            android:textColor="@color/body_text_1_inverse" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_marginLeft="@dimen/default_8dp"
+        android:layout_width="wrap_content"
+        android:scrollbars="none"
+        android:layout_height="wrap_content">
+
+        <odoo.controls.ExpandableListControl
+            android:id="@+id/recentProductList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </odoo.controls.ExpandableListControl>
+    </HorizontalScrollView>
+</LinearLayout>
+

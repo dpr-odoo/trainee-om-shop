@@ -66,6 +66,54 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/noNetwork"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="@dimen/default_8dp"
+            android:layout_marginTop="@dimen/default_48dp"
+            android:src="@drawable/ic_action_antenna"
+            android:tint="#bfbfbf" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/font_normal"
+            android:gravity="center"
+            android:text="@string/label_cant_connect"
+            android:textColor="@color/body_text_1"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_4dp"
+            android:gravity="center"
+            android:text="@string/label_please_check_your_network_connection"
+            android:textColor="@color/body_text_2" />
+
+        <Button
+            android:id="@+id/btnRetryToConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_8dp"
+            android:backgroundTint="@color/android_orange_dark"
+            android:paddingLeft="@dimen/default_16dp"
+            android:paddingRight="@dimen/default_16dp"
+            android:text="@string/label_try_again"
+            android:textAllCaps="true"
+            android:textColor="@color/body_text_1_inverse" />
+    </LinearLayout>
+
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"

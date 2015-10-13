@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.odoo.App;
 import com.odoo.R;
@@ -42,7 +41,6 @@ import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.support.OUser;
 import com.odoo.core.utils.ODateUtils;
 import com.odoo.core.utils.OPreferenceManager;
-import com.odoo.core.utils.OResource;
 import com.odoo.core.utils.OdooRecordUtils;
 import com.odoo.core.utils.notification.ONotificationBuilder;
 
@@ -174,9 +172,12 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                 }
             }
+            HashMap<String, Object> context = new HashMap<>();
+            context.put("pricelist", 1); //FIXME: add support add context from sync
             // Getting data
-            OdooResult response = mOdoo.searchRead(model.getModelName(), getFields(model)
-                    , domain, 0, mSyncDataLimit, "create_date DESC");
+            OdooResult response = mOdoo.withContext(context).
+                    searchRead(model.getModelName(), getFields(model)
+                            , domain, 0, mSyncDataLimit, "create_date DESC");
             if (response.containsKey("error")) {
                 app.setOdoo(null, user);
                 OPreferenceManager pref = new OPreferenceManager(mContext);

@@ -16,8 +16,7 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_action_navigation_menu</item>
     </style>
 
-    <style name="AppBar.Light" parent="ThemeOverlay.AppCompat.ActionBar">
-    </style>
+    <style name="AppBar.Light" parent="ThemeOverlay.AppCompat.ActionBar"></style>
 
     <!-- FIXME: Replace toolbar with appbar.. -->
     <style name="ToolBarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -35,5 +34,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">#cccccc</item>
+    </style>
+
+    <style name="HeaderTitleStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">25sp</item>
     </style>
 </resources>

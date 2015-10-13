@@ -1,6 +1,5 @@
 package odoo.controls.recycler;
 
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,8 @@ public class EasyRecyclerViewAdapter extends
     }
 
     public void changeCursor(List<Object> rows) {
-        items = rows;
+        items.clear();
+        items.addAll(rows);
         notifyDataSetChanged();
     }
 

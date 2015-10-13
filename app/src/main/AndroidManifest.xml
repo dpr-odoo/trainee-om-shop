@@ -103,6 +103,13 @@
         <activity android:name=".addons.website_sale.SearchItemsActivity" />
         <activity android:name=".addons.website_sale.GoogleLoginActivity" />
 
+        <!-- Product Sync service //-->
+        <service
+            android:name=".addons.products.services.ProductSyncService"
+            android:exported="false"
+            android:process=":product_sync_service" />
+
+        <activity android:name=".addons.cart.CartActivity" />
     </application>
 
 </manifest>

@@ -48,9 +48,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.odoo.addons.products.services.ProductSyncService;
 import com.odoo.addons.website_sale.GoogleLoginActivity;
 import com.odoo.addons.website_sale.HomeScreen;
 import com.odoo.addons.website_sale.ProductCategoryLoader;
+import com.odoo.addons.website_sale.ProductSubCategories;
 import com.odoo.addons.website_sale.models.ProductPublicCategory;
 import com.odoo.core.account.AppIntro;
 import com.odoo.core.account.ManageAccounts;
@@ -62,17 +64,14 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.addons.fragment.IBaseFragment;
-import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.sync.SyncUtils;
 import com.odoo.core.utils.BitmapUtils;
-import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OAlert;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OFragmentUtils;
 import com.odoo.core.utils.OPreferenceManager;
 import com.odoo.core.utils.OResource;
 import com.odoo.core.utils.drawer.DrawerUtils;
-import com.odoo.core.utils.logger.OLog;
 import com.odoo.core.utils.sys.IOnActivityResultListener;
 import com.odoo.core.utils.sys.IOnBackPressListener;
 
@@ -117,26 +116,46 @@ public class OdooActivity extends AppCompatActivity {
         OControls.makeSetOdooFont(findViewById(R.id.txvLabelOdoo));
         OControls.makeSetOdooFont(findViewById(R.id.txvLabelShop));
         setupDrawer();
-        new ProductCategoryLoader(this, new ProductCategoryLoader.OnCategoryLoadListener() {
-            @Override
-            public void categoryLoaded() {
-                findViewById(R.id.drawer_layout).setVisibility(View.VISIBLE);
-                findViewById(R.id.splashScreen).setVisibility(View.GONE);
-                OPreferenceManager preferenceManager = new OPreferenceManager(OdooActivity.this);
-                if (!preferenceManager.getBoolean(KEY_FRESH_LOGIN, false)) {
-                    preferenceManager.setBoolean(KEY_FRESH_LOGIN, true);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(OdooActivity.this, AppIntro.class));
-                        }
-                    }, 1000);
+        startApp();
+    }
+
+    private void startApp() {
+        if (app.inNetwork() || ProductPublicCategory.hasCategories(this)) {
+            findViewById(R.id.noNetwork).setVisibility(View.GONE);
+            findViewById(R.id.splashScreen).setVisibility(View.VISIBLE);
+            new ProductCategoryLoader(this, new ProductCategoryLoader.OnCategoryLoadListener() {
+                @Override
+                public void categoryLoaded() {
+                    findViewById(R.id.drawer_layout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.splashScreen).setVisibility(View.GONE);
+                    OPreferenceManager preferenceManager = new OPreferenceManager(OdooActivity.this);
+                    if (!preferenceManager.getBoolean(KEY_FRESH_LOGIN, false)) {
+                        preferenceManager.setBoolean(KEY_FRESH_LOGIN, true);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(OdooActivity.this, AppIntro.class));
+                            }
+                        }, 1000);
+                    }
+                    Intent productSyncIntent = new Intent(Intent.ACTION_SYNC, null, OdooActivity.this,
+                            ProductSyncService.class);
+                    startService(productSyncIntent);
+                    setupDrawerBox();
+                    onPostCreate(null);
+                    mDrawerToggle.syncState();
                 }
-                setupDrawerBox();
-                onPostCreate(null);
-                mDrawerToggle.syncState();
-            }
-        }).execute();
+            }).execute();
+        } else {
+            findViewById(R.id.noNetwork).setVisibility(View.VISIBLE);
+            findViewById(R.id.splashScreen).setVisibility(View.GONE);
+            findViewById(R.id.btnRetryToConnect).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startApp();
+                }
+            });
+        }
     }
 
     // Creating drawer
@@ -198,28 +217,26 @@ public class OdooActivity extends AppCompatActivity {
             }
             OControls.setText(item, R.id.title, row.getString("name"));
             item.setTag(row);
-            item.setOnClickListener(drawerItemClick);
+            item.setOnClickListener(drawerCategoryItemClick);
             container.addView(item);
         }
 
     }
 
-    private View.OnClickListener drawerItemClick = new View.OnClickListener() {
+    private View.OnClickListener drawerCategoryItemClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int index = mDrawerItemContainer.indexOfChild(v);
 //            if (mDrawerSelectedIndex != index) {
-//                ODrawerItem item = (ODrawerItem) v.getTag();
-//                if (item.getInstance() instanceof Fragment) {
-//                    focusOnDrawerItem(index);
-//                    setTitle(item.getTitle());
-//                }
-//                loadDrawerItemInstance(item.getInstance(), item.getExtra());
+                ODataRow row = (ODataRow) v.getTag();
+                Bundle data = row.getPrimaryBundleData();
+//                focusOnDrawerItem(index);
+                setTitle(row.getString("name"));
+                mDrawerSelectedIndex = index;
+                loadDrawerItemInstance(new ProductSubCategories(), data, true);
 //            } else {
-//                closeDrawer();
+                closeDrawer();
 //            }
-            ODataRow row = (ODataRow) v.getTag();
-            closeDrawer();
         }
     };
 
@@ -238,7 +255,7 @@ public class OdooActivity extends AppCompatActivity {
      *
      * @param instance, instance of fragment or intent
      */
-    private void loadDrawerItemInstance(Object instance, Bundle extra) {
+    private void loadDrawerItemInstance(Object instance, Bundle extra, boolean addToBackstate) {
         if (instance != null) {
             if (instance instanceof Intent) {
                 Log.i(TAG, "Loading intent: " + instance.getClass().getCanonicalName());
@@ -256,13 +273,13 @@ public class OdooActivity extends AppCompatActivity {
                 if (intent != null) {
                     if (extra != null)
                         intent.putExtras(extra);
-                    loadDrawerItemInstance(intent, null);
+                    loadDrawerItemInstance(intent, null, addToBackstate);
                     return;
                 }
             }
             if (instance instanceof Fragment) {
                 Log.i(TAG, "Loading fragment: " + instance.getClass().getCanonicalName());
-                OFragmentUtils.get(this, mSavedInstanceState).startFragment((Fragment) instance, false, extra);
+                OFragmentUtils.get(this, mSavedInstanceState).startFragment((Fragment) instance, addToBackstate, extra);
             }
         }
         closeDrawer();
@@ -576,7 +593,7 @@ public class OdooActivity extends AppCompatActivity {
                     public void run() {
                         IBaseFragment fragment = DrawerUtils.getDefaultDrawerFragment();
                         if (fragment != null) {
-                            loadDrawerItemInstance(new HomeScreen(), null);
+                            loadDrawerItemInstance(new HomeScreen(), null, false);
                         }
                     }
                 }, DRAWER_ITEM_LAUNCH_DELAY);

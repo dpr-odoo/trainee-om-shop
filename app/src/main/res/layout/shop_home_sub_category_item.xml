@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/default_8dp"
+    android:paddingLeft="@dimen/default_16dp"
+    android:paddingRight="@dimen/default_16dp"
+    android:paddingTop="@dimen/default_8dp">
+
+    <View
+        android:id="@+id/subCategoryPadding"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <odoo.controls.BezelImageView
+        android:id="@+id/categoryIcon"
+        android:scaleType="centerCrop"
+        android:layout_marginRight="@dimen/default_8dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:maskDrawable="@drawable/circle_mask" />
+
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@string/font_condensed"
+        android:textColor="@color/body_text_1"
+        android:textSize="@dimen/text_size_xmedium" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_8dp"
+        android:src="@drawable/ic_action_arrow_right"
+        android:tint="#414141" />
+
+</LinearLayout>

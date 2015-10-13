@@ -12,6 +12,7 @@ import com.odoo.core.support.OUser;
 public class ProductPublicCategory extends OModel {
 
     OColumn name = new OColumn("Name", OVarchar.class);
+    OColumn complete_name = new OColumn("Complete Name", OVarchar.class);
     OColumn parent_id = new OColumn("Parent category", ProductPublicCategory.class, OColumn.RelationType.ManyToOne);
     OColumn sequence = new OColumn("Sequence", OInteger.class).setDefaultValue(0);
     OColumn image_medium = new OColumn("Image", OBlob.class).setDefaultValue("false");
@@ -19,4 +20,10 @@ public class ProductPublicCategory extends OModel {
     public ProductPublicCategory(Context context) {
         super(context, "product.public.category");
     }
+
+    public static boolean hasCategories(Context context) {
+        ProductPublicCategory category = new ProductPublicCategory(context);
+        return category.count(null, null) > 0;
+    }
+
 }

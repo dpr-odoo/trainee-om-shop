@@ -23,9 +23,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 
 import com.odoo.App;
@@ -47,7 +49,6 @@ import com.odoo.core.utils.OListUtils;
 import com.odoo.core.utils.OPreferenceManager;
 import com.odoo.core.utils.OStorageUtils;
 import com.odoo.core.utils.StringUtils;
-import com.odoo.core.utils.logger.OLog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -92,6 +93,10 @@ public class OModel implements ISyncServiceListener {
     private String default_name_column = "name";
     public static OModelRegistry modelRegistry = new OModelRegistry();
     private boolean hasMailChatter = false;
+
+    // data observer
+    private OnDataChangeListener onDataChangeListener;
+    private DataObserver dataObserver;
 
     // Relation record command
     public enum Command {
@@ -1025,6 +1030,7 @@ public class OModel implements ISyncServiceListener {
     public void quickSyncRecords(ODomain domain) {
         quickSyncRecords(domain, false);
     }
+
     public void quickSyncRecords(ODomain domain, boolean checkForCreateWriteDate) {
         OSyncAdapter syncAdapter = new OSyncAdapter(mContext, getClass(), null, true);
         syncAdapter.setModel(this);
@@ -1110,5 +1116,50 @@ public class OModel implements ISyncServiceListener {
     @Override
     public void onSyncFinished() {
         // Will be over ride by extending model
+    }
+
+    // Data observer
+    class DataObserver extends ContentObserver {
+
+        public DataObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            if (onDataChangeListener != null) {
+                onDataChangeListener.onModelDataChanged();
+            }
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            if (onDataChangeListener != null) {
+                onDataChangeListener.onModelDataChanged();
+            }
+        }
+    }
+
+    public OModel setDataObserver(OnDataChangeListener callback) {
+        onDataChangeListener = callback;
+        if (model_name != null) {
+            dataObserver = new DataObserver(new Handler());
+            mContext.getContentResolver().registerContentObserver(uri(), true, dataObserver);
+        }
+        return this;
+    }
+
+    public interface OnDataChangeListener {
+        void onModelDataChanged();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        if (model_name != null && dataObserver!=null) {
+            mContext.getContentResolver().unregisterContentObserver(dataObserver);
+        }
+        super.finalize();
     }
 }

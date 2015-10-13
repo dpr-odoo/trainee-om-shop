@@ -2,8 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_show_cart"
-        android:icon="@drawable/ic_action_shopping_cart"
-        android:title="@string/lable_cart"
+        android:id="@+id/menu_search_product"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/label_search"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_show_cart"
+        android:title="@string/lable_cart"
+        app:actionLayout="@layout/menu_card_badge_layout"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_shop_overflow"
+        android:icon="@drawable/ic_action_navigation_more_vert"
+        android:title="@string/label_more"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_home"
+                android:icon="@drawable/ic_action_home"
+                android:title="@string/label_home" />
+            <item
+                android:id="@+id/menu_recent_view"
+                android:icon="@drawable/ic_action_recent_view"
+                android:title="@string/label_recent_view" />
+            <item
+                android:id="@+id/menu_favourite_list"
+                android:icon="@drawable/ic_action_favorite_holo"
+                android:title="@string/label_favourite_list" />
+
+        </menu>
+    </item>
 </menu>

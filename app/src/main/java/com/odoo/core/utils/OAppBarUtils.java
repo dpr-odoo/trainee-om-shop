@@ -19,13 +19,29 @@
  */
 package com.odoo.core.utils;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 import com.odoo.R;
+import com.odoo.addons.cart.CartActivity;
+import com.odoo.addons.products.ProductDetail;
+import com.odoo.addons.website_sale.FavouriteProductView;
+import com.odoo.addons.website_sale.RecentViewedItems;
+import com.odoo.addons.website_sale.SearchItemsActivity;
+import com.odoo.addons.cart.models.ShopCart;
+import com.odoo.core.support.addons.fragment.BaseFragment;
+import com.odoo.core.utils.sys.IOnActivityResultListener;
 
 public class OAppBarUtils {
+    public static final int REQUEST_PRODUCT_SEARCH = 115;
 
     public static void setAppBar(AppCompatActivity activity, Boolean withHomeButtonEnabled) {
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
@@ -48,6 +64,61 @@ public class OAppBarUtils {
                 actionBar.setHomeButtonEnabled(true);
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
+        }
+    }
+
+
+    public static void bindShopMenu(AppCompatActivity activity, boolean isHome, Menu menu) {
+        ShopCart shopCart = new ShopCart(activity);
+        MenuItem cart = menu.findItem(R.id.menu_show_cart);
+        menu.findItem(R.id.menu_home).setVisible(!isHome);
+        menu.findItem(R.id.menu_search_product).setVisible(!isHome);
+        // Binding cart and its badge
+        RelativeLayout cartBadge = (RelativeLayout) cart.getActionView();
+        int counter = shopCart.counter();
+        if (counter > 0) {
+            OControls.setVisible(cartBadge, R.id.counter);
+            OControls.setText(cartBadge, R.id.counter, counter + "");
+        } else {
+            OControls.setGone(cartBadge, R.id.counter);
+        }
+    }
+
+    public static void onShopMenuItemClick(AppCompatActivity activity, final BaseFragment fragment, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_home:
+                int count = fragment.getFragmentManager().getBackStackEntryCount();
+                if (count > 0) {
+                    int frag_id = fragment.getFragmentManager().getBackStackEntryAt(0).getId();
+                    fragment.getFragmentManager().popBackStack(frag_id, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                } else {
+                    fragment.getFragmentManager().popBackStack();
+                }
+                break;
+            case R.id.menu_search_product:
+                Intent searchProduct = new Intent(activity, SearchItemsActivity.class);
+                fragment.parent().setOnActivityResultListener(new IOnActivityResultListener() {
+                    @Override
+                    public void onOdooActivityResult(int requestCode, int resultCode, Intent data) {
+                        if (requestCode == REQUEST_PRODUCT_SEARCH && resultCode == Activity.RESULT_OK) {
+                            //TODO: Handle result and start product detail view if selected from search
+                            Bundle extra = new Bundle();
+                            extra.putBoolean(ProductDetail.KEY_OPEN_PRODUCT, true);
+                            fragment.startFragment(new ProductDetail(), true, extra);
+                        }
+                    }
+                });
+                fragment.parent().startActivityForResult(searchProduct, REQUEST_PRODUCT_SEARCH);
+                break;
+            case R.id.menu_show_cart:
+                activity.startActivity(new Intent(activity, CartActivity.class));
+                break;
+            case R.id.menu_recent_view:
+                fragment.startFragment(new RecentViewedItems(), true);
+                break;
+            case R.id.menu_favourite_list:
+                fragment.startFragment(new FavouriteProductView(), true);
+                break;
         }
     }
 }

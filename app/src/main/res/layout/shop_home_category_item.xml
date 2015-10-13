@@ -6,15 +6,15 @@
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/default_8dp"
+    android:paddingBottom="10dp"
     android:paddingLeft="@dimen/default_16dp"
     android:paddingRight="@dimen/default_16dp"
-    android:paddingTop="@dimen/default_8dp">
+    android:paddingTop="10dp">
 
     <odoo.controls.BezelImageView
         android:id="@+id/categoryIcon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginRight="@dimen/default_8dp"
         android:src="@drawable/avatar"
         app:maskDrawable="@drawable/circle_mask_primary" />

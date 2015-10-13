@@ -23,7 +23,7 @@ public class ProductCategoryLoader extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            if (mApp.inNetwork() && category.isEmptyTable()) {
+            if (mApp.inNetwork()) {
                 category.quickSyncRecords(null, true);
             }
             Thread.sleep(1000);

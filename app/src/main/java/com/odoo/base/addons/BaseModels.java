@@ -21,7 +21,11 @@ package com.odoo.base.addons;
 
 import android.content.Context;
 
+import com.odoo.addons.cart.models.ShopCart;
+import com.odoo.addons.products.models.ProductProduct;
+import com.odoo.addons.website_sale.models.FavouriteProducts;
 import com.odoo.addons.website_sale.models.ProductPublicCategory;
+import com.odoo.addons.website_sale.models.RecentViewProducts;
 import com.odoo.base.addons.ir.IrAttachment;
 import com.odoo.base.addons.ir.IrModel;
 import com.odoo.base.addons.mail.MailMessage;
@@ -30,7 +34,6 @@ import com.odoo.base.addons.res.ResPartner;
 import com.odoo.base.addons.res.ResUsers;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.support.OUser;
-import com.odoo.news.models.OdooNews;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,10 @@ public class BaseModels {
         models.add(new IrAttachment(context));
         models.add(new MailMessage(context));
         models.add(new ProductPublicCategory(context));
+        models.add(new ProductProduct(context));
+        models.add(new FavouriteProducts(context));
+        models.add(new ShopCart(context));
+        models.add(new RecentViewProducts(context));
         return models;
     }
 }

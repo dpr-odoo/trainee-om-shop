@@ -27,4 +27,13 @@
     <string name="label_login_with_google_plus">Login with Google+</string>
     <string name="label_login_or_signup">Login/Signup</string>
     <string name="terms_condition">By registering, You agree to Odoo\'s Terms and conditions</string>
+    <string name="label_cant_connect">Can\'t Connect</string>
+    <string name="label_please_check_your_network_connection">Please check your network connection</string>
+    <string name="label_try_again">Try again</string>
+    <string name="label_new_products">New products</string>
+    <string name="toast_added_to_favourite_list">Added to favourite list</string>
+    <string name="toast_removed_from_favourite_list">Removed from favourite list</string>
+    <string name="label_home">Home</string>
+    <string name="label_recent_view">Recently Viewed</string>
+    <string name="label_favourite_list">Favourite list</string>
 </resources>

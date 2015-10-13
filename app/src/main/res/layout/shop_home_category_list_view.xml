@@ -10,7 +10,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/default_16dp"
-        android:paddingRight="@dimen/default_16dp">
+        android:paddingRight="@dimen/default_8dp">
 
         <TextView
             android:layout_width="0dp"
@@ -21,6 +21,7 @@
             android:textSize="@dimen/text_size_xlarge" />
 
         <Button
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/android_orange_dark"
@@ -44,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <odoo.controls.ExpandableListControl
                 android:id="@+id/categoriesList"
                 android:layout_width="match_parent"

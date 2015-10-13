@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="48dp"
+    android:layout_height="match_parent"
+    android:gravity="right">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:src="@drawable/ic_action_shopping_cart" />
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/default_8dp"
+        android:layout_marginTop="@dimen/default_8dp"
+        android:background="@drawable/circle_mask_pink"
+        android:fontFamily="@string/font_normal"
+        android:gravity="center"
+        android:padding="3dp"
+        android:singleLine="true"
+        android:text="99+"
+        android:textColor="#fff"
+        android:textSize="@dimen/text_size_xxsmall"
+        android:textStyle="bold" />
+</RelativeLayout>
