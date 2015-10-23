@@ -5,6 +5,7 @@ import android.content.Context;
 import com.odoo.addons.website_sale.models.ProductPublicCategory;
 import com.odoo.base.addons.res.ResCompany;
 import com.odoo.core.orm.OModel;
+import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.orm.fields.types.OBlob;
 import com.odoo.core.orm.fields.types.OBoolean;
@@ -18,6 +19,7 @@ import odoo.helper.ODomain;
 public class ProductTemplate extends OModel {
 
     OColumn name = new OColumn("Name", OVarchar.class);
+    OColumn image = new OColumn("Image", OBlob.class).setDefaultValue("false");
     OColumn image_medium = new OColumn("Image", OBlob.class).setDefaultValue("false");
     OColumn list_price = new OColumn("Sale price", OFloat.class).setDefaultValue(0);
     OColumn price = new OColumn("Sale price", OFloat.class).setDefaultValue(0);
@@ -33,6 +35,7 @@ public class ProductTemplate extends OModel {
             OColumn.RelationType.ManyToMany);
 
     OColumn company_id = new OColumn("Company", ResCompany.class, OColumn.RelationType.ManyToOne);
+    OColumn is_fav = new OColumn("Is Fav", OBoolean.class).setDefaultValue(false).setLocalColumn();
 
     public ProductTemplate(Context context) {
         super(context, "product.template");
@@ -43,5 +46,11 @@ public class ProductTemplate extends OModel {
         ODomain domain = new ODomain();
         domain.add("website_published", "=", true);
         return domain;
+    }
+
+    public void setFav(int id, boolean isFav) {
+        OValues values = new OValues();
+        values.put("is_fav", isFav);
+        update(id, values);
     }
 }

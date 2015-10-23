@@ -36,4 +36,11 @@
     <string name="label_home">Home</string>
     <string name="label_recent_view">Recently Viewed</string>
     <string name="label_favourite_list">Favourite list</string>
+    <string name="label_sort">Sort</string>
+    <string name="label_filter">Filter</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="buy_now">Buy now</string>
+    <string name="label_mrp">MRP:</string>
+    <string name="product_warranty">%s months warranty</string>
+    <string name="you_saved">You Save: %s</string>
 </resources>

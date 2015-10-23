@@ -109,7 +109,6 @@
             android:exported="false"
             android:process=":product_sync_service" />
 
-        <activity android:name=".addons.cart.CartActivity" />
     </application>
 
 </manifest>

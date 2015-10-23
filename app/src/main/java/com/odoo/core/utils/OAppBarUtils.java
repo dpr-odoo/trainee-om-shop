@@ -28,15 +28,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.odoo.R;
-import com.odoo.addons.cart.CartActivity;
+import com.odoo.addons.cart.CartFragment;
+import com.odoo.addons.cart.models.ShopCart;
 import com.odoo.addons.products.ProductDetail;
 import com.odoo.addons.website_sale.FavouriteProductView;
 import com.odoo.addons.website_sale.RecentViewedItems;
 import com.odoo.addons.website_sale.SearchItemsActivity;
-import com.odoo.addons.cart.models.ShopCart;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.utils.sys.IOnActivityResultListener;
 
@@ -67,21 +68,37 @@ public class OAppBarUtils {
         }
     }
 
-
-    public static void bindShopMenu(AppCompatActivity activity, boolean isHome, Menu menu) {
-        ShopCart shopCart = new ShopCart(activity);
-        MenuItem cart = menu.findItem(R.id.menu_show_cart);
-        menu.findItem(R.id.menu_home).setVisible(!isHome);
-        menu.findItem(R.id.menu_search_product).setVisible(!isHome);
-        // Binding cart and its badge
-        RelativeLayout cartBadge = (RelativeLayout) cart.getActionView();
-        int counter = shopCart.counter();
+    private static void setCounter(int counter, RelativeLayout cartBadge) {
         if (counter > 0) {
             OControls.setVisible(cartBadge, R.id.counter);
             OControls.setText(cartBadge, R.id.counter, counter + "");
         } else {
             OControls.setGone(cartBadge, R.id.counter);
         }
+    }
+
+    public static void bindShopMenu(final AppCompatActivity activity, boolean isHome, Menu menu) {
+        final ShopCart shopCart = new ShopCart(activity);
+        MenuItem cart = menu.findItem(R.id.menu_show_cart);
+        menu.findItem(R.id.menu_home).setVisible(!isHome);
+        menu.findItem(R.id.menu_search_product).setVisible(!isHome);
+        // Binding cart and its badge
+        final RelativeLayout cartBadge = (RelativeLayout) cart.getActionView();
+        int counter = shopCart.counter();
+        setCounter(counter, cartBadge);
+        cart.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                OAppBarUtils.onShopMenuItemClick(activity, null, item);
+                return true;
+            }
+        });
+        cartBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OFragmentUtils.get(activity, null).startFragment(new CartFragment(), true, null);
+            }
+        });
     }
 
     public static void onShopMenuItemClick(AppCompatActivity activity, final BaseFragment fragment, MenuItem item) {
@@ -111,7 +128,7 @@ public class OAppBarUtils {
                 fragment.parent().startActivityForResult(searchProduct, REQUEST_PRODUCT_SEARCH);
                 break;
             case R.id.menu_show_cart:
-                activity.startActivity(new Intent(activity, CartActivity.class));
+                OFragmentUtils.get(activity, null).startFragment(new CartFragment(), true, null);
                 break;
             case R.id.menu_recent_view:
                 fragment.startFragment(new RecentViewedItems(), true);

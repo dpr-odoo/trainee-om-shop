@@ -13,8 +13,8 @@
     <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:background="#fff">
+        android:background="#fff"
+        android:clipToPadding="false">
 
 
         <android.support.design.widget.AppBarLayout
@@ -40,14 +40,80 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/theme_primary_light"
-                android:orientation="horizontal"
-                android:padding="@dimen/default_16dp"
+                android:orientation="vertical"
                 app:layout_scrollFlags="enterAlways">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Filter View" />
+                <View style="@style/ViewSeparator" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="@dimen/default_8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/default_4dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_action_content_sort" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@string/font_normal"
+                            android:text="@string/label_sort"
+                            android:textAllCaps="true"
+                            android:layout_marginLeft="@dimen/default_4dp"
+                            android:textColor="@color/body_text_1"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/default_4dp"
+                        android:layout_marginTop="@dimen/default_4dp"
+                        android:background="@color/list_divider" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/default_8dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_action_filter" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/default_4dp"
+                            android:fontFamily="@string/font_normal"
+                            android:text="@string/label_filter"
+                            android:textAllCaps="true"
+                            android:textColor="@color/body_text_1"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
         </android.support.design.widget.AppBarLayout>
 

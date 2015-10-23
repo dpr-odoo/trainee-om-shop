@@ -6,14 +6,12 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
     defaultConfig {
-        //FIXME: Change application name as your requirement
         manifestPlaceholders = [applicationName: "Odoo Shop"]
-        //FIXME: Please change the application id as your requirement
         applicationId "com.odoo.trainee.shop"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 5
-        versionName "2.1.0"
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {

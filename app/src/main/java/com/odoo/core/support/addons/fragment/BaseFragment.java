@@ -71,6 +71,10 @@ public abstract class BaseFragment extends Fragment implements IBaseFragment {
         container = view;
     }
 
+    public View getContainer() {
+        return container;
+    }
+
     public View findViewById(int res_id) {
         return container.findViewById(res_id);
     }

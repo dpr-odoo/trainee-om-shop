@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_top_padding"
+        android:background="@color/colorPrimary" />
+
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:clipToPadding="false">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/AppBar.Light">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/theme_primary_light"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/AppBar.Light"
+                android:titleTextColor="@color/body_text_2"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            <LinearLayout
+                android:id="@+id/filterView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/theme_primary_light"
+                android:orientation="vertical"
+                app:layout_scrollFlags="enterAlways"></LinearLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <odoo.controls.recycler.EasyRecyclerView
+            android:id="@+id/productsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/filterView"
+            android:background="#f0f0f0"
+            android:clipToPadding="false"
+            android:paddingBottom="60dp"
+            android:paddingTop="@dimen/default_16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </odoo.controls.recycler.EasyRecyclerView>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

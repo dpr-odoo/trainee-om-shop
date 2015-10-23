@@ -160,6 +160,7 @@ public class Products extends BaseFragment implements EasyRecyclerViewAdapter.On
 
     @Override
     public void onItemViewClick(int position, View view, Object data) {
-
+        ODataRow row = (ODataRow) data;
+        startFragment(new ProductDetail(), true, row.getPrimaryBundleData());
     }
 }
