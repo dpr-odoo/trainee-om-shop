@@ -511,6 +511,13 @@ public class OModel implements ISyncServiceListener {
         return BaseModelProvider.buildURI(BASE_AUTHORITY, path, mUser.getAndroidName());
     }
 
+    public HashMap<String, Object> requestContext(HashMap<String, Object> context) {
+        if (context != null) {
+            return context;
+        }
+        return new HashMap<>();
+    }
+
     public ODomain defaultDomain() {
         return new ODomain();
     }
@@ -1032,8 +1039,13 @@ public class OModel implements ISyncServiceListener {
     }
 
     public void quickSyncRecords(ODomain domain, boolean checkForCreateWriteDate) {
+        quickSyncRecords(domain, checkForCreateWriteDate, 0);
+    }
+
+    public void quickSyncRecords(ODomain domain, boolean checkForCreateWriteDate, int dataLimit) {
         OSyncAdapter syncAdapter = new OSyncAdapter(mContext, getClass(), null, true);
         syncAdapter.setModel(this);
+        syncAdapter.syncDataLimit(dataLimit);
         syncAdapter.setDomain(domain);
         syncAdapter.checkForWriteCreateDate(checkForCreateWriteDate);
         syncAdapter.onPerformSync(getUser().getAccount(), null, authority(), null, new SyncResult());
@@ -1157,7 +1169,7 @@ public class OModel implements ISyncServiceListener {
 
     @Override
     protected void finalize() throws Throwable {
-        if (model_name != null && dataObserver!=null) {
+        if (model_name != null && dataObserver != null) {
             mContext.getContentResolver().unregisterContentObserver(dataObserver);
         }
         super.finalize();

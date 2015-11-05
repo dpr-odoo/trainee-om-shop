@@ -59,7 +59,7 @@ public class FavouriteProductView extends BaseFragment implements
         });
         toolbar.setTitle("Products");
         toolbar.inflateMenu(R.menu.menu_home);
-        OAppBarUtils.bindShopMenu(parent(), false, toolbar.getMenu());
+        OAppBarUtils.bindShopMenu(parent(), new int[]{R.id.menu_favourite_list}, toolbar.getMenu());
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

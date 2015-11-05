@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/default_8dp"
+    android:paddingLeft="@dimen/default_8dp"
+    android:paddingRight="@dimen/default_8dp"
+    android:paddingTop="@dimen/default_8dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_4dp"
+        android:fontFamily="@string/font_normal"
+        android:textColor="@color/body_text_1"
+        android:textSize="@dimen/text_size_xlarge" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <odoo.controls.ExpandableListControl
+            android:id="@+id/options"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </odoo.controls.ExpandableListControl>
+    </HorizontalScrollView>
+</LinearLayout>

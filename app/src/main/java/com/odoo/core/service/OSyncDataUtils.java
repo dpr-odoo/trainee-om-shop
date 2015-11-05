@@ -1,20 +1,20 @@
 /**
  * Odoo, Open Source Management Solution
  * Copyright (C) 2012-today Odoo SA (<http:www.odoo.com>)
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details
- *
+ * <p/>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:www.gnu.org/licenses/>
- *
+ * <p/>
  * Created on 2/1/15 4:15 PM
  */
 package com.odoo.core.service;
@@ -228,10 +228,13 @@ public class OSyncDataUtils {
                                     OModel m2mModel = mModel.createInstance(column.getType());
                                     List<Integer> m2mIds = OListUtils.doubleToIntList(record.getM2M(name));
                                     if (mCreateRelationRecords) {
+                                        List<Integer> syncIds = new ArrayList<>();
+                                        if (column.getRecordSyncLimit() != -1) {
+                                            syncIds.addAll((column.getRecordSyncLimit() > 0) ?
+                                                    m2mIds.subList(0, column.getRecordSyncLimit()) : m2mIds);
+                                        }
                                         addUpdateRelationRecord(mModel, m2mModel.getTableName(), column.getType(),
-                                                name, null, column.getRelationType(),
-                                                (column.getRecordSyncLimit() > 0) ?
-                                                        m2mIds.subList(0, column.getRecordSyncLimit()) : m2mIds);
+                                                name, null, column.getRelationType(), syncIds);
                                     }
                                     List<Integer> m2mRowIds = new ArrayList<>();
                                     for (Integer id : m2mIds) {

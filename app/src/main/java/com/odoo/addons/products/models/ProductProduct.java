@@ -22,9 +22,11 @@ public class ProductProduct extends OModel {
             OColumn.RelationType.ManyToOne);
 
     OColumn public_categ_ids = new OColumn("Public category", ProductPublicCategory.class,
-            OColumn.RelationType.ManyToMany);
+            OColumn.RelationType.ManyToMany)
+            .setRecordSyncLimit(-1);
 
-    OColumn attribute_value_ids = new OColumn("Attributes", ProductAttributeValue.class, OColumn.RelationType.ManyToMany);
+    OColumn attribute_value_ids = new OColumn("Attributes", ProductAttributeValue.class, OColumn.RelationType.ManyToMany)
+            .setRecordSyncLimit(-1);
 
     public ProductProduct(Context context) {
         super(context, "product.product");

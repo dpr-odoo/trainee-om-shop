@@ -43,4 +43,6 @@
     <string name="label_mrp">MRP:</string>
     <string name="product_warranty">%s months warranty</string>
     <string name="you_saved">You Save: %s</string>
+    <string name="toast_item_added_to_cart">Item added to cart</string>
+    <string name="title_select">Select %s</string>
 </resources>

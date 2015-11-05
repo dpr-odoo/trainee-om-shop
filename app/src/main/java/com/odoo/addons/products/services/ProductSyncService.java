@@ -24,7 +24,7 @@ public class ProductSyncService extends IntentService {
         if (app.inNetwork()) {
             try {
                 ProductProduct products = new ProductProduct(getApplicationContext());
-                products.quickSyncRecords(null, true);
+                products.quickSyncRecords(null, true); // FIXME: What if there are more than 500 products ??
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }

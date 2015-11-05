@@ -57,7 +57,7 @@ public class Products extends BaseFragment implements EasyRecyclerViewAdapter.On
         });
         toolbar.setTitle("Products");
         toolbar.inflateMenu(R.menu.menu_home);
-        OAppBarUtils.bindShopMenu(parent(), false, toolbar.getMenu());
+        OAppBarUtils.bindShopMenu(parent(), new int[]{}, toolbar.getMenu());
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

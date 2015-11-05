@@ -133,12 +133,14 @@ public class HomeScreen extends BaseFragment {
         templates.setDataObserver(new OModel.OnDataChangeListener() {
             @Override
             public void onModelDataChanged() {
-                productTemplates.clear();
-                productTemplates.addAll(templates.select(new String[]{"name", "image_medium"}, null, null, "id DESC"));
-                items.clear();
-                int limit = (productTemplates.size() > 10) ? 10 : productTemplates.size();
-                items.addAll(productTemplates.subList(0, limit));
-                adapter.notifyDataSetChanged(items);
+                if(productTemplates!=null) {
+                    productTemplates.clear();
+                    productTemplates.addAll(templates.select(new String[]{"name", "image_medium"}, null, null, "id DESC"));
+                    items.clear();
+                    int limit = (productTemplates.size() > 10) ? 10 : productTemplates.size();
+                    items.addAll(productTemplates.subList(0, limit));
+                    adapter.notifyDataSetChanged(items);
+                }
             }
         });
         return view;
@@ -188,7 +190,7 @@ public class HomeScreen extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_home, menu);
-        OAppBarUtils.bindShopMenu(parent(), true, menu);
+        OAppBarUtils.bindShopMenu(parent(), new int[]{R.id.menu_home, R.id.menu_search_product}, menu);
     }
 
     @Override
@@ -197,4 +199,9 @@ public class HomeScreen extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        templates.setDataObserver(null);
+    }
 }

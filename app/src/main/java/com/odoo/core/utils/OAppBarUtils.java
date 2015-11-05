@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +69,7 @@ public class OAppBarUtils {
         }
     }
 
-    private static void setCounter(int counter, RelativeLayout cartBadge) {
+    public static void setCounter(int counter, RelativeLayout cartBadge) {
         if (counter > 0) {
             OControls.setVisible(cartBadge, R.id.counter);
             OControls.setText(cartBadge, R.id.counter, counter + "");
@@ -77,11 +78,14 @@ public class OAppBarUtils {
         }
     }
 
-    public static void bindShopMenu(final AppCompatActivity activity, boolean isHome, Menu menu) {
+    public static void bindShopMenu(final AppCompatActivity activity, int[] hideMenuIds, Menu menu) {
         final ShopCart shopCart = new ShopCart(activity);
         MenuItem cart = menu.findItem(R.id.menu_show_cart);
-        menu.findItem(R.id.menu_home).setVisible(!isHome);
-        menu.findItem(R.id.menu_search_product).setVisible(!isHome);
+        for (int menuId : hideMenuIds) {
+            Log.v("", "Hiding menu " + menu.findItem(menuId).getTitle());
+            menu.findItem(menuId).setVisible(false);
+        }
+//        menu.findItem(R.id.menu_search_product).setVisible(!isHome);
         // Binding cart and its badge
         final RelativeLayout cartBadge = (RelativeLayout) cart.getActionView();
         int counter = shopCart.counter();
@@ -138,4 +142,5 @@ public class OAppBarUtils {
                 break;
         }
     }
+
 }

@@ -14,6 +14,8 @@ import com.odoo.core.orm.fields.types.OInteger;
 import com.odoo.core.orm.fields.types.OText;
 import com.odoo.core.orm.fields.types.OVarchar;
 
+import java.util.HashMap;
+
 import odoo.helper.ODomain;
 
 public class ProductTemplate extends OModel {
@@ -50,7 +52,13 @@ public class ProductTemplate extends OModel {
 
     public void setFav(int id, boolean isFav) {
         OValues values = new OValues();
-        values.put("is_fav", isFav);
+        values.put("is_fav", isFav + "");
         update(id, values);
+    }
+
+    @Override
+    public HashMap<String, Object> requestContext(HashMap<String, Object> context) {
+        context.put("pricelist", 1);
+        return context;
     }
 }

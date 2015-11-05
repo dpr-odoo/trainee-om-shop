@@ -28,10 +28,11 @@ public class FavouriteProducts extends OModel {
         if (isFavourite(product_id)) {
             delete("product_id = ?", new String[]{product_id + ""}, true);
             isFav = false;
+        } else {
+            OValues values = new OValues();
+            values.put("product_id", product_id);
+            insert(values);
         }
-        OValues values = new OValues();
-        values.put("product_id", product_id);
-        insert(values);
         ProductTemplate template = (ProductTemplate) createInstance(ProductTemplate.class);
         template.setFav(product_id, isFav);
         return isFav;

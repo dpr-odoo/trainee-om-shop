@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/attr_value_item"
+    android:layout_marginRight="@dimen/default_8dp"
+    android:orientation="vertical"
+    android:padding="@dimen/default_8dp">
+
+    <TextView
+        android:id="@+id/attrValueName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@string/font_condensed"
+        android:textSize="@dimen/text_size_xmedium"
+        android:gravity="center"
+        android:textColor="@color/body_text_2" />
+</LinearLayout>
